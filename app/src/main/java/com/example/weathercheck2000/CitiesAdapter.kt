@@ -1,8 +1,11 @@
 package com.example.weathercheck2000
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +38,7 @@ class CitiesAdapter (private val onItemClicked: (Cities) -> Unit) :
         viewHolder.itemView.setOnClickListener{
             val position = viewHolder.adapterPosition
             onItemClicked(getItem(position))
+            Log.d("Cities Adapter", "on click")
         }
         return viewHolder
     }

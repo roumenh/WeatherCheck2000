@@ -4,10 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.database.cities.CitiesDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Cities::class), version = 1)
+@Database(entities = [Cities::class], version = 2)
 abstract class AppDatabase: RoomDatabase(){
 
     abstract fun citiesDao(): CitiesDao
@@ -16,13 +20,17 @@ abstract class AppDatabase: RoomDatabase(){
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase{
+        fun getDatabase(
+            context: Context,
+            scope: CoroutineScope
+        ): AppDatabase{
             return INSTANCE?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context,
+                    context.applicationContext,
                     AppDatabase::class.java,
                     "app_database")
-                    .createFromAsset("database/cities.db")
+                    .fallbackToDestructiveMigration()
+                    //.createFromAsset("database/cities.db")
                     .build()
                 INSTANCE = instance
 
@@ -30,6 +38,7 @@ abstract class AppDatabase: RoomDatabase(){
 
             }
         }
+
     }
 
 }

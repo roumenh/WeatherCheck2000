@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Cities (
     // Data class to hold class for my Database structure
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)       val id: Int = 0,
     @NonNull @ColumnInfo(name = "name")    val name: String,
     @NonNull @ColumnInfo(name = "lat")     val lat: String,
     @NonNull @ColumnInfo(name = "lon")     val lon: String

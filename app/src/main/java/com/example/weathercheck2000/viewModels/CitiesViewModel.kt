@@ -1,28 +1,76 @@
 package com.example.weathercheck2000.viewModels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import CitiesRepository
+import android.util.Log
+import androidx.lifecycle.*
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.database.cities.CitiesDao
 import java.lang.IllegalArgumentException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
-class CitiesViewModel (private val citiesDao: CitiesDao): ViewModel(){
+//class CitiesViewModel (private val citiesDao: CitiesDao): ViewModel(){   // DAO
+class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){      // repository
 
-    fun getAllCities(): Flow<List<Cities>> = citiesDao.getAll()
+    val userInputCity = MutableLiveData<String>()
 
-    fun insertNewCity(name: String, latitude: String, longitude: String) = citiesDao.insertCity(name,latitude,longitude)
-}
+    private var _inputCity = MutableLiveData<String>()
+    val inputCity: LiveData<String>
+        get() = _inputCity
 
-class CitiesViewModelFactory(
-    private val citiesDao: CitiesDao
-): ViewModelProvider.Factory {
-    override fun <T : ViewModel> create (modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CitiesViewModel::class.java)){
-            @Suppress("UNCHECKED_CAST")
-            return CitiesViewModel(citiesDao) as T
+    init {
+        userInputCity.value = "Praha"
+        _inputCity.value = "Praha"
+    }
+
+    // fun getAllCities(): Flow<List<Cities>> = citiesDao.getAll() // DAO
+    val allCities: LiveData<MutableList<Cities>> = repository.allCities.asLiveData()  // Repository
+
+    /*
+    fun insertNewCity() = viewModelScope.launch{
+        citiesDao.insertCity(Cities(13,"Brno","111","222"))
+    }
+    */
+
+
+    fun insertNewCity() {
+        viewModelScope.launch {
+            Log.d("Cities","test")
+            Log.d("CitiesViewModel",userInputCity.value!!)
+            var name = userInputCity.value!!
+            var latitude = "000"
+            var longitude = "123"
+            val newCity = Cities(name = name, lat = latitude, lon = longitude)
+            repository.insert(newCity)
+            //  citiesDao.insertCity(name!!,latitude,longitude)
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+
+
+    }
+
+
+
+    // live data:
+
+    private val _text = MutableLiveData<String>().apply {
+        value = "This is home Fragment"
+    }
+    val text: LiveData<String> = _text
+
+
+    class CitiesViewModelFactory(
+        //private val citiesDao: CitiesDao
+        private val citiesRepository: CitiesRepository
+    ): ViewModelProvider.Factory {
+        override fun <T : ViewModel> create (modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(CitiesViewModel::class.java)){
+                @Suppress("UNCHECKED_CAST")
+                //return CitiesViewModel(citiesDao) as T
+                return CitiesViewModel(citiesRepository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+
     }
 
 }

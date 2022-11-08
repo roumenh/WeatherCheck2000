@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.weathercheck2000.database.cities.CitiesDao
 import com.example.weathercheck2000.databinding.ActivityMainBinding
 import com.example.weathercheck2000.viewModels.CitiesViewModel
-import com.example.weathercheck2000.viewModels.CitiesViewModelFactory
 
 
 class MainActivity : AppCompatActivity() {

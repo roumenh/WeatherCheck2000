@@ -1,31 +1,43 @@
 package com.example.weathercheck2000.ui.home
 
+import CitiesRepository
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weathercheck2000.CitiesAdapter
+import com.example.weathercheck2000.R
 import com.example.weathercheck2000.WeatherCheckApplication
+import com.example.weathercheck2000.database.AppDatabase
+import com.example.weathercheck2000.database.cities.CitiesDao
 import com.example.weathercheck2000.databinding.FragmentHomeBinding
 import com.example.weathercheck2000.viewModels.CitiesViewModel
-import com.example.weathercheck2000.viewModels.CitiesViewModelFactory
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 
 class HomeFragment : Fragment() {
-
+/*
     private val viewModel: CitiesViewModel by activityViewModels {
         CitiesViewModelFactory(
-            (activity?.application as WeatherCheckApplication).database.citiesDao()
+            (activity?.application as WeatherCheckApplication)
         )
     }
+*/
+    private val viewModel: CitiesViewModel by viewModels {
+    CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
+    }
+
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -40,16 +52,20 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        //val homeViewModel =
+       //     ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        //_binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val root: View = binding.root
 
+        /*
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
+
+        viewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+         */
         return root
     }
 
@@ -63,11 +79,15 @@ class HomeFragment : Fragment() {
         val citiesAdapter = CitiesAdapter({}) // no action so far, but if will be, we will add here
         recyclerView.adapter = citiesAdapter
         //here I can build
-        lifecycle.coroutineScope.launch{
-            viewModel.getAllCities().collect {
-                citiesAdapter.submitList(it)
-            }
+
+        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        viewModel.allCities.observe(viewLifecycleOwner) { words ->
+            // Update the cached copy of the words in the adapter.
+            words.let { citiesAdapter.submitList(it) }
         }
+
     }
 
     override fun onDestroyView() {
