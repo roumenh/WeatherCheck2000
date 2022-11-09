@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.database.cities.CitiesDao
+import com.example.weathercheck2000.network.WeatherApi
 import java.lang.IllegalArgumentException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -18,11 +19,13 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     val inputCity: LiveData<String>
         get() = _inputCity
 
-    init {
-        userInputCity.value = "Praha"
-        _inputCity.value = "Praha"
-    }
-
+    // test text for testing what comes back from API requests
+    /*
+    var _testText = MutableLiveData<String>()
+    val testText : LiveData<String>
+        get() = _testText
+*/
+    val testText = MutableLiveData<String>()
     // fun getAllCities(): Flow<List<Cities>> = citiesDao.getAll() // DAO
     val allCities: LiveData<MutableList<Cities>> = repository.allCities.asLiveData()  // Repository
 
@@ -32,6 +35,21 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     }
     */
 
+    private fun getWeatherForecast(){
+        viewModelScope.launch {
+            val result = WeatherApi.retrofitService.getForecast("38.7072","-9.1355")
+            testText.value = result
+            //testText.value = "DASOIDJSAOJD"
+            Log.d("Retrofit",testText.value.toString())
+        }
+    }
+
+    init {
+        userInputCity.value = "Praha"
+        _inputCity.value = "Praha"
+        testText.value = "test text"
+        getWeatherForecast()
+    }
 
     fun insertNewCity() {
         viewModelScope.launch {

@@ -46,7 +46,7 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        //  TELL ME THAT THIS WILL MAKE IT WORK...
+        //  TELL ME THAT THIS WILL MAKE IT WORK... yess
     }
 
     override fun onDestroyView() {

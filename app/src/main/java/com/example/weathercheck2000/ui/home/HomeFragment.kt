@@ -27,17 +27,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 
 class HomeFragment : Fragment() {
-/*
-    private val viewModel: CitiesViewModel by activityViewModels {
-        CitiesViewModelFactory(
-            (activity?.application as WeatherCheckApplication)
-        )
-    }
-*/
-    private val viewModel: CitiesViewModel by viewModels {
-    CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
-    }
 
+    private val viewModel: CitiesViewModel by viewModels {
+        CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
+    }
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -87,6 +80,9 @@ class HomeFragment : Fragment() {
             // Update the cached copy of the words in the adapter.
             words.let { citiesAdapter.submitList(it) }
         }
+
+        binding.viewModel = viewModel       // this is necessary so we can use viewModel variables inside this fragment..
+        binding.lifecycleOwner = this       // + THIS ALSO!!! :) :) 
 
     }
 
