@@ -59,7 +59,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Latitude" />
+                android:hint="Latitude"
+                android:text="@={viewModel.userInputLatitude}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +75,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Longitude" />
+                android:hint="Longitude"
+                android:text="@={viewModel.userInputLongitude}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add city"
-            android:onClick="@{() -> viewModel.insertNewCity()}"
+            android:onClick="@{() -> dashboardFragment.clickInsertNewCity()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/city_longitude_input" />
     </androidx.constraintlayout.widget.ConstraintLayout>

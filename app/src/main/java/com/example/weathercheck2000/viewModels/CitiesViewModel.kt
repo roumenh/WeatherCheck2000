@@ -2,22 +2,24 @@ package com.example.weathercheck2000.viewModels
 
 import CitiesRepository
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.database.cities.CitiesDao
 import com.example.weathercheck2000.network.WeatherApi
 import java.lang.IllegalArgumentException
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 //class CitiesViewModel (private val citiesDao: CitiesDao): ViewModel(){   // DAO
 class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){      // repository
 
     val userInputCity = MutableLiveData<String>()
+    val userInputLatitude = MutableLiveData<String>()
+    val userInputLongitude = MutableLiveData<String>()
 
-    private var _inputCity = MutableLiveData<String>()
-    val inputCity: LiveData<String>
-        get() = _inputCity
+   // private var _inputCity = MutableLiveData<String>()
+   // val inputCity: LiveData<String>
+   //     get() = _inputCity
 
     // test text for testing what comes back from API requests
     /*
@@ -35,10 +37,10 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     }
     */
 
-    private fun getWeatherForecast(){
+    private fun getWeatherForecast(latitude : String, longitude : String){
         viewModelScope.launch {
             try {
-                val result = WeatherApi.retrofitService.getForecast("38.7072", "-9.1355")
+                val result = WeatherApi.retrofitService.getForecast(latitude, longitude)
                 Log.d("Retrofit",testText.value.toString())
                 testText.value = result.daily.temperature2mMin.first().toString()
             }catch (e: Exception){
@@ -50,50 +52,51 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     }
 
     init {
-        userInputCity.value = "Praha"
-        _inputCity.value = "Praha"
+        //userInputCity.value = ""
+        //_inputCity.value = "Praha"
         testText.value = "test text"
-        getWeatherForecast()
+        getWeatherForecast("38.7072","-9.1355")
     }
 
-    fun insertNewCity() {
-        viewModelScope.launch {
+    fun insertNewCity() : Boolean {
+
+        // TODO data validation (latitude, longitude)
+        // TODO - idea - pick coordinates from map or from current position GPS
+
+        // WHY - it is interesting that after submitting , the fields will be cleared if I want to
+        // submit another city. If I dont submit, it will keep double-binded to the variables
+        // but if submit - it will clear. Why?
+
             Log.d("Cities","test")
-            Log.d("CitiesViewModel",userInputCity.value!!)
-            var name = userInputCity.value!!
-            var latitude = "000"
-            var longitude = "123"
-            val newCity = Cities(name = name, lat = latitude, lon = longitude)
-            repository.insert(newCity)
-            //  citiesDao.insertCity(name!!,latitude,longitude)
-        }
 
+            if (userInputCity.value != null && userInputLatitude.value != null && userInputLongitude.value != null){
+                val name        = userInputCity.value!!
+                val latitude    = userInputLatitude.value!!
+                val longitude   = userInputLongitude.value!!
+                val newCity = Cities(name = name, lat = latitude, lon = longitude)
+                viewModelScope.launch {
+                    repository.insert(newCity)
+                }
+                return true
+            }else{
+                return false
+            }
 
     }
-
-
-
-    // live data:
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
-
 
     class CitiesViewModelFactory(
         //private val citiesDao: CitiesDao
         private val citiesRepository: CitiesRepository
-    ): ViewModelProvider.Factory {
+    ): ViewModelProvider.Factory  {
         override fun <T : ViewModel> create (modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(CitiesViewModel::class.java)){
                 @Suppress("UNCHECKED_CAST")
-                //return CitiesViewModel(citiesDao) as T
                 return CitiesViewModel(citiesRepository) as T
+                //return CitiesViewModel(citiesDao) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
 
     }
-
 }
+

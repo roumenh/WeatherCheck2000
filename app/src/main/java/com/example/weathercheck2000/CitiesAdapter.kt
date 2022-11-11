@@ -1,27 +1,35 @@
 package com.example.weathercheck2000
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.databinding.CityItemBinding
+import com.example.weathercheck2000.network.WeatherApi
+import com.example.weathercheck2000.viewModels.CitiesViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class CitiesAdapter (private val onItemClicked: (Cities) -> Unit) :
+
+class CitiesAdapter (
+    private val onItemClicked: (Cities) -> Unit
+) :
     ListAdapter<Cities, CitiesAdapter.CitiesViewHolder>(DiffCallback){
 
     // Viewholder will allow to access views created from layout file in code
     class CitiesViewHolder(private var binding: CityItemBinding):
             RecyclerView.ViewHolder(binding.root){
-                fun bind(cities: Cities){
+                fun bind(cities: Cities, temperature : String){
                     binding.cityNameTextView.text = cities.name
                     binding.cityLatitudeTextView.text = cities.lat
                     binding.cityLongitudeTextView.text = cities.lon
+                    binding.cityTemperatureTextView.text = temperature
                 }
             }
 
@@ -45,7 +53,22 @@ class CitiesAdapter (private val onItemClicked: (Cities) -> Unit) :
 
     //override the onBindViewHolder() to bind the view at the specified position
     override fun onBindViewHolder(holder: CitiesViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val item = getItem(position)
+        var temperature = "(loading...)"
+        CoroutineScope(Dispatchers.Main).launch {
+            // TODO : Not ideal! Should be done somehow better
+            // TODO: This is probably not correct, need to improve
+            try {
+                val result = WeatherApi.retrofitService.getForecast(item.lat,item.lon)
+                temperature = result.daily.temperature2mMin.first().toString()
+                Log.d("RetrofitCoroutine", temperature)
+            } catch (e: Exception) {
+                temperature = "Error : ${e.message}"
+            }
+            holder.bind(getItem(position), temperature)
+        }
+
+
     }
 
     /*
