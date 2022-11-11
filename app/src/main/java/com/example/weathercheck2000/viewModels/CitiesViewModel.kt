@@ -37,10 +37,15 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
 
     private fun getWeatherForecast(){
         viewModelScope.launch {
-            val result = WeatherApi.retrofitService.getForecast("38.7072","-9.1355")
-            testText.value = result
+            try {
+                val result = WeatherApi.retrofitService.getForecast("38.7072", "-9.1355")
+                Log.d("Retrofit",testText.value.toString())
+                testText.value = result.daily.temperature2mMin.first().toString()
+            }catch (e: Exception){
+                testText.value = "Error : ${e.message}"
+            }
             //testText.value = "DASOIDJSAOJD"
-            Log.d("Retrofit",testText.value.toString())
+
         }
     }
 
