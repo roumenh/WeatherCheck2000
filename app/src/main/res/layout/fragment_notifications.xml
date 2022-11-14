@@ -13,7 +13,7 @@
         tools:context=".ui.notifications.NotificationsFragment">
 
         <TextView
-            android:id="@+id/text_notifications"
+            android:id="@+id/city_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

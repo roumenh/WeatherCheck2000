@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,7 @@ import com.example.weathercheck2000.viewModels.CitiesViewModel
 
 class HomeFragment : Fragment() {
 
-    private val viewModel: CitiesViewModel by viewModels {
+    private val viewModel: CitiesViewModel by activityViewModels {
         CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
     }
 
@@ -58,9 +59,9 @@ class HomeFragment : Fragment() {
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        viewModel.allCities.observe(viewLifecycleOwner) { words ->
-            // Update the cached copy of the words in the adapter.
-            words.let { citiesAdapter.submitList(it) }
+        viewModel.allCities.observe(viewLifecycleOwner) { cities ->
+            // Update the cached copy of the cities in the adapter.
+            cities.let { citiesAdapter.submitList(it) }
         }
 
         binding.viewModel = viewModel       // this is necessary so we can use viewModel variables inside this fragment..

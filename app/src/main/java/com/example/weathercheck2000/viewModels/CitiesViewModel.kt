@@ -17,16 +17,6 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     val userInputLatitude = MutableLiveData<String>()
     val userInputLongitude = MutableLiveData<String>()
 
-   // private var _inputCity = MutableLiveData<String>()
-   // val inputCity: LiveData<String>
-   //     get() = _inputCity
-
-    // test text for testing what comes back from API requests
-    /*
-    var _testText = MutableLiveData<String>()
-    val testText : LiveData<String>
-        get() = _testText
-*/
     private val _city = MutableLiveData<Cities>()
     var city : LiveData<Cities> = _city
 
@@ -59,7 +49,8 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
         //userInputCity.value = ""
         //_inputCity.value = "Praha"
         _testText.value = "test text"
-        getWeatherForecast("38.7072","-9.1355")
+        //getWeatherForecast("38.7072","-9.1355")
+        Log.d("viewModel","Init")
     }
 
     fun insertNewCity() : Boolean {
