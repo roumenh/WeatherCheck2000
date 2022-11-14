@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weathercheck2000.CitiesAdapter
+import com.example.weathercheck2000.R
 import com.example.weathercheck2000.WeatherCheckApplication
 import com.example.weathercheck2000.databinding.FragmentHomeBinding
 import com.example.weathercheck2000.viewModels.CitiesViewModel
@@ -56,7 +58,11 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         //assign the adapter property
-        val citiesAdapter = CitiesAdapter({}) // no action so far, but if will be, we will add here
+        val citiesAdapter = CitiesAdapter(CitiesAdapter.CitiesListener { cities ->
+            viewModel.setDetailCity(cities)
+            //findNavController()
+              //  .navigate(R.id.action_amphibianListFragment_to_amphibianDetailFragment)
+            })
         recyclerView.adapter = citiesAdapter
         //here I can build
 

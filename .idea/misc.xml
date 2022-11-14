@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/round.xml" value="0.2635" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
-        <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/city_item.xml" value="0.2" />
+        <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/city_item.xml" value="0.264" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/fragment_dashboard.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/fragment_notifications.xml" value="0.11614583333333334" />

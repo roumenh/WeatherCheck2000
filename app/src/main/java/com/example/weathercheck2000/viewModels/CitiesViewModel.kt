@@ -27,7 +27,11 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     val testText : LiveData<String>
         get() = _testText
 */
-    val testText = MutableLiveData<String>()
+    private val _city = MutableLiveData<Cities>()
+    var city : LiveData<Cities> = _city
+
+    private val _testText = MutableLiveData<String>()
+    var testText: LiveData<String> = _testText
     // fun getAllCities(): Flow<List<Cities>> = citiesDao.getAll() // DAO
     val allCities: LiveData<MutableList<Cities>> = repository.allCities.asLiveData()  // Repository
 
@@ -42,9 +46,9 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
             try {
                 val result = WeatherApi.retrofitService.getForecast(latitude, longitude)
                 Log.d("Retrofit",testText.value.toString())
-                testText.value = result.daily.temperature2mMin.first().toString()
+                _testText.value = result.daily.temperature2mMin.first().toString()
             }catch (e: Exception){
-                testText.value = "Error : ${e.message}"
+                _testText.value = "Error : ${e.message}"
             }
             //testText.value = "DASOIDJSAOJD"
 
@@ -54,7 +58,7 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     init {
         //userInputCity.value = ""
         //_inputCity.value = "Praha"
-        testText.value = "test text"
+        _testText.value = "test text"
         getWeatherForecast("38.7072","-9.1355")
     }
 
@@ -83,6 +87,17 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
             }
 
     }
+
+    fun setDetailCity(newCity: Cities){
+        _city.value = newCity
+        /*
+        val listOfCities = allCities.value
+        _city.value = listOfCities?.get(position)
+        */
+        Log.d("listOfCities",_city.value!!.name)
+    }
+
+
 
     class CitiesViewModelFactory(
         //private val citiesDao: CitiesDao

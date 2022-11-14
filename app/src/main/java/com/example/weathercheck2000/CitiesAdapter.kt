@@ -17,19 +17,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CitiesAdapter (
-    private val onItemClicked: (Cities) -> Unit
-) :
+class CitiesAdapter (val clickListener: CitiesListener) :
     ListAdapter<Cities, CitiesAdapter.CitiesViewHolder>(DiffCallback){
 
     // Viewholder will allow to access views created from layout file in code
     class CitiesViewHolder(private var binding: CityItemBinding):
             RecyclerView.ViewHolder(binding.root){
-                fun bind(cities: Cities, temperature : String){
-                    binding.cityNameTextView.text = cities.name
-                    binding.cityLatitudeTextView.text = cities.lat
-                    binding.cityLongitudeTextView.text = cities.lon
-                    binding.cityTemperatureTextView.text = temperature
+                fun bind(clickListener: CitiesListener, cities: Cities, temperature : String){
+                    binding.cities = cities  // this won't work without the <data> tag in city_item.xaml
+                    binding.clickListener = clickListener // without this, the click listener below and defined in city_item.xaml wont work
+                    //binding.cityNameTextView.text = cities.name
+                    //binding.cityLatitudeTextView.text = cities.lat
+                    //binding.cityLongitudeTextView.text = cities.lon
+                    binding.cityTemperatureTextView.text = temperature  // TODO need to align this
+                    binding.executePendingBindings()  // not sure what this is good for
                 }
             }
 
@@ -43,11 +44,14 @@ class CitiesAdapter (
             )
         )
         // onclick listener
+        /*
         viewHolder.itemView.setOnClickListener{
             val position = viewHolder.adapterPosition
             onItemClicked(getItem(position))
             Log.d("Cities Adapter", "on click")
         }
+        */  // COMMENTING THE ONLICK LISTENEE OUT, WE WILL USE NOW  CLICK LISTENER IN THE CLASS
+
         return viewHolder
     }
 
@@ -65,10 +69,15 @@ class CitiesAdapter (
             } catch (e: Exception) {
                 temperature = "Error : ${e.message}"
             }
-            holder.bind(getItem(position), temperature)
+            holder.bind(clickListener, getItem(position), temperature)
         }
 
 
+    }
+
+    // lets try to setup a onclick listener first...
+    class CitiesListener(val clickListener: (cities: Cities) -> Unit) {
+        fun onClick(cities: Cities) = clickListener(cities)
     }
 
     /*
