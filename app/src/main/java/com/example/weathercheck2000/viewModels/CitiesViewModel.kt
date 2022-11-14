@@ -94,7 +94,7 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
         val listOfCities = allCities.value
         _city.value = listOfCities?.get(position)
         */
-        Log.d("listOfCities",_city.value!!.name)
+        Log.d("listOfCities",city.value!!.name)
     }
 
 

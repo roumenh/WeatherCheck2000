@@ -22,37 +22,25 @@ class HomeFragment : Fragment() {
     }
 
     private var _binding: FragmentHomeBinding? = null
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //val homeViewModel =
-       //     ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        //_binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val root: View = binding.root
-
-        /*
-        val textView: TextView = binding.textHome
-
-        viewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-         */
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         // setup the recyclerView & assign to its layout manager
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -60,11 +48,12 @@ class HomeFragment : Fragment() {
         //assign the adapter property
         val citiesAdapter = CitiesAdapter(CitiesAdapter.CitiesListener { cities ->
             viewModel.setDetailCity(cities)
-            //findNavController()
-              //  .navigate(R.id.action_amphibianListFragment_to_amphibianDetailFragment)
+            findNavController().navigate(R.id.action_navigation_home_to_cityDetailFragment)
+            // TODO add arguments? is it necessary?
             })
         recyclerView.adapter = citiesAdapter
-        //here I can build
+
+
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
@@ -75,7 +64,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.viewModel = viewModel       // this is necessary so we can use viewModel variables inside this fragment..
-        binding.lifecycleOwner = this       // + THIS ALSO!!! :) :) 
+        binding.lifecycleOwner = this       // + THIS ALSO!!! :) :) or = lifecycleOwner  (like in dashboard fragment -WHY?)
 
     }
 

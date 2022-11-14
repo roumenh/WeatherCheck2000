@@ -1,40 +1,32 @@
-package com.example.weathercheck2000.ui.dashboard
+package com.example.weathercheck2000.ui.cityDetail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.example.weathercheck2000.R
 import com.example.weathercheck2000.WeatherCheckApplication
-import com.example.weathercheck2000.databinding.FragmentDashboardBinding
 import com.example.weathercheck2000.viewModels.CitiesViewModel
+import androidx.fragment.app.Fragment
+import com.example.weathercheck2000.databinding.FragmentCityDetailBinding
 
-class DashboardFragment : Fragment() {
+class CityDetailFragment : Fragment() {
 
-
+    // attach shared View Model
     private val viewModel: CitiesViewModel by viewModels {
         CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
     }
-
-    private var _binding: FragmentDashboardBinding? = null
-
-    // This property is only valid between onCreateView and onDestroyView.
+    private var _binding: FragmentCityDetailBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentCityDetailBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         return root
     }
 
@@ -44,25 +36,12 @@ class DashboardFragment : Fragment() {
         //  YEAH
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.dashboardFragment = this@DashboardFragment
+        binding.cityDetailFragment = this@CityDetailFragment
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    //-----------------
-
-    fun clickInsertNewCity(){
-        Log.d("InsertNewCity","yes0")
-        if (viewModel.insertNewCity()){
-            Toast.makeText(this.context,"Added",Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_navigation_dashboard_to_navigation_home)
-        }else{
-            Toast.makeText(this.context, "Some fields are missing",Toast.LENGTH_SHORT).show()
-        }
-
     }
 }

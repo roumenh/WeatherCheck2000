@@ -26,10 +26,8 @@ class CitiesAdapter (val clickListener: CitiesListener) :
                 fun bind(clickListener: CitiesListener, cities: Cities, temperature : String){
                     binding.cities = cities  // this won't work without the <data> tag in city_item.xaml
                     binding.clickListener = clickListener // without this, the click listener below and defined in city_item.xaml wont work
-                    //binding.cityNameTextView.text = cities.name
-                    //binding.cityLatitudeTextView.text = cities.lat
-                    //binding.cityLongitudeTextView.text = cities.lon
-                    binding.cityTemperatureTextView.text = temperature  // TODO need to align this
+                    binding.cityTemperatureTextView.text = temperature
+                    // ^^ TODO need to align this - how to connect Cities class with Forecast class?
                     binding.executePendingBindings()  // not sure what this is good for
                 }
             }
