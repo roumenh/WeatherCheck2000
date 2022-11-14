@@ -49,18 +49,24 @@ class CityDetailFragment : Fragment() {
 
 
 
-        var temperature_min = "(loading...)"
-        var temperature_max = "(loading...)"
+        var temperatureMin = "(loading...)"
+        var temperatureMax = "(loading...)"
+        var temperatureNow = "(loading...)"
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val result = WeatherApi.retrofitService.getForecast(viewModel.city.value!!.lat,viewModel.city.value!!.lon)
-                temperature_min = result.daily.temperature2mMin.first().toString()
-                temperature_max = result.daily.temperature2mMax.first().toString()
+                // fetch forecast
+                val forecastResult = WeatherApi.retrofitService.getForecast(viewModel.city.value!!.lat,viewModel.city.value!!.lon)
+                temperatureMin = forecastResult.daily.temperature2mMin.first().toString()
+                temperatureMax = forecastResult.daily.temperature2mMax.first().toString()
+                // fetch current weather
+                val actualWeather = WeatherApi.retrofitService.getCurrentWeather(viewModel.city.value!!.lat,viewModel.city.value!!.lon)
+                temperatureNow = actualWeather.currentWeather.temperature.toString()
             } catch (e: Exception) {
-                temperature_min = "Error : ${e.message}"
+                Log.e("Error", e.message.toString())
             }
-            binding.temperatureMinValue.text = temperature_min
-            binding.temperatureMaxValue.text = temperature_max
+            binding.temperatureMinValue.text        = "$temperatureMin °C"
+            binding.temperatureMaxValue.text        = "$temperatureMax °C"
+            binding.temperatureCurrentValue.text    = "$temperatureNow °C"
         }
     }
 

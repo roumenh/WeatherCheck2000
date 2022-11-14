@@ -1,3 +1,7 @@
+/*
+replaced with CurrentWeather
+ */
+
 package com.example.weathercheck2000.network
 
 import com.squareup.moshi.Json
