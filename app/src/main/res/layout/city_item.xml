@@ -14,58 +14,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:paddingBottom="4dp"
         android:background="@drawable/round"
+        android:onClick="@{() -> clickListener.onClick(cities)}"
+        android:paddingBottom="4dp"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
-        android:onClick="@{() -> clickListener.onClick(cities)}">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+
+        <TextView
+            android:id="@+id/city_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:padding="8dp"
+            android:text="@{cities.name}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-            <TextView
-                android:id="@+id/city_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="@{cities.name}" />
-
-            <TextView
-                android:id="@+id/city_temperature_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:padding="8dp"
-                android:text="temperature" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/city_temperature_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:padding="8dp"
+            android:text="temperature"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-            <TextView
-                android:id="@+id/city_latitude_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="8dp"
-                android:text="@{cities.lat}" />
-
-            <TextView
-                android:id="@+id/city_longitude_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="8dp"
-                android:text="@{cities.lon}" />
-        </LinearLayout>
 
     </LinearLayout>
 </layout>

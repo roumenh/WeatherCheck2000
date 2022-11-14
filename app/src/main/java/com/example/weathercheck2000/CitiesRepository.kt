@@ -17,6 +17,15 @@ class CitiesRepository(private val citiesDao: CitiesDao) {
             citiesDao.insertCity(cities)
         }
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    fun delete(cities: Cities){
+        CoroutineScope(Dispatchers.IO).launch {
+            citiesDao.deleteCity(cities)
+        }
+    }
+
     /*
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

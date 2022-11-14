@@ -59,15 +59,15 @@ class CitiesAdapter (val clickListener: CitiesListener) :
         var temperature = "(loading...)"
         CoroutineScope(Dispatchers.Main).launch {
             // TODO : Not ideal! Should be done somehow better
-            // TODO: This is probably not correct, need to improve
+            // TODO: This is probably not correct, need to improve, but don't know how yet
             try {
-                val result = WeatherApi.retrofitService.getForecast(item.lat,item.lon)
-                temperature = result.daily.temperature2mMin.first().toString()
+                val result = WeatherApi.retrofitService.getCurrentWeather(item.lat,item.lon)
+                temperature = result.currentWeather.temperature.toString()
                 Log.d("RetrofitCoroutine", temperature)
             } catch (e: Exception) {
                 temperature = "Error : ${e.message}"
             }
-            holder.bind(clickListener, getItem(position), temperature)
+            holder.bind(clickListener, getItem(position), "$temperature °C")
         }
 
 

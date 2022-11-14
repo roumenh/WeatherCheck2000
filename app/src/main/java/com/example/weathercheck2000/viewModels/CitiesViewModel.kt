@@ -79,6 +79,14 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
 
     }
 
+    fun deleteSelectedCity(city: Cities) {
+        viewModelScope.launch {
+            repository.delete(city)
+        }
+        // TODO error: Index out of bounds when deleting the city. all works but the
+        // adapter is then behaving uncorrectly.
+    }
+
     fun setDetailCity(newCity: Cities){
         _city.value = newCity
         /*

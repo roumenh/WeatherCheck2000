@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.weathercheck2000.R
 import com.example.weathercheck2000.WeatherCheckApplication
+import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.databinding.FragmentCityDetailBinding
 import com.example.weathercheck2000.network.WeatherApi
 import com.example.weathercheck2000.viewModels.CitiesViewModel
@@ -73,5 +76,11 @@ class CityDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    //----------------------------
+    fun deleteCity(cities: Cities){
+        viewModel.deleteSelectedCity(cities)
+        findNavController().navigate(R.id.action_navigation_city_detail_to_navigation_home)
     }
 }

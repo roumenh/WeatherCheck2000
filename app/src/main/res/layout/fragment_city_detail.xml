@@ -105,6 +105,14 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </LinearLayout>
 
+            <ImageButton
+                android:id="@+id/delete_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="delete city"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
+                android:onClick="@{() -> cityDetailFragment.deleteCity(viewModel.city)}"/>
+
         </LinearLayout>
 
 
