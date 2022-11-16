@@ -3,19 +3,15 @@ package com.example.weathercheck2000
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.databinding.CityItemBinding
 import com.example.weathercheck2000.network.WeatherApi
-import com.example.weathercheck2000.viewModels.CitiesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 
 class CitiesAdapter (val clickListener: CitiesListener) :
     ListAdapter<Cities, CitiesAdapter.CitiesViewHolder>(DiffCallback){
@@ -23,18 +19,24 @@ class CitiesAdapter (val clickListener: CitiesListener) :
     // Viewholder will allow to access views created from layout file in code
     class CitiesViewHolder(private var binding: CityItemBinding):
             RecyclerView.ViewHolder(binding.root){
-                fun bind(clickListener: CitiesListener, cities: Cities, temperature : String){
+                fun bind(clickListener: CitiesListener, cities: Cities, temperature : String, weatherCode : String){
+                    var theWeatherCode = weatherCode
                     binding.cities = cities  // this won't work without the <data> tag in city_item.xaml
                     binding.clickListener = clickListener // without this, the click listener below and defined in city_item.xaml wont work
                     binding.cityTemperatureTextView.text = temperature
                     // ^^ TODO need to align this - how to connect Cities class with Forecast class?
+
+                    if (!mapOfWeatherCodes.containsKey(weatherCode)) theWeatherCode = "X"
+                    binding.cityWeathercodeImage.setImageResource(mapOfWeatherCodes[theWeatherCode]!!.imageId)
+                    // ^^ same thing
+
                     binding.executePendingBindings()  // not sure what this is good for
                 }
             }
 
     // inflate the layout....
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CitiesViewHolder {
-        val viewHolder = CitiesViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CitiesAdapter.CitiesViewHolder {
+        val viewHolder = CitiesAdapter.CitiesViewHolder(
             CityItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -54,20 +56,23 @@ class CitiesAdapter (val clickListener: CitiesListener) :
     }
 
     //override the onBindViewHolder() to bind the view at the specified position
-    override fun onBindViewHolder(holder: CitiesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CitiesAdapter.CitiesViewHolder, position: Int) {
         val item = getItem(position)
         var temperature = "(loading...)"
+        var weatherCode = "X"
         CoroutineScope(Dispatchers.Main).launch {
             // TODO : Not ideal! Should be done somehow better
             // TODO: This is probably not correct, need to improve, but don't know how yet
             try {
                 val result = WeatherApi.retrofitService.requestCurrentWeather(item.lat,item.lon)
-                temperature = result.currentWeather.temperature.toString()
+                temperature = result.currentWeather.temperature
+                weatherCode = result.currentWeather.weathercode
                 Log.d("RetrofitCoroutine", temperature)
+
             } catch (e: Exception) {
                 temperature = "Error : ${e.message}"
             }
-            holder.bind(clickListener, getItem(position), "$temperature °C")
+            holder.bind(clickListener, getItem(position), "$temperature °C", weatherCode)
         }
 
 

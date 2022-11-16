@@ -166,14 +166,13 @@
                 app:layout_constraintTop_toBottomOf="@id/linear_wind">
 
                 <ImageView
-                    android:id="@+id/weathercode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_home_black_24dp"
-                    app:tint="#8BC34A" />
+                    android:id="@+id/weathercode_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/loading_animation" />
 
                 <TextView
-                    android:id="@+id/weathercode_image"
+                    android:id="@+id/weathercode"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -181,6 +180,14 @@
                     android:gravity="center_vertical"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
+                <TextView
+                    android:id="@+id/weathercode_explanation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             </LinearLayout>
 

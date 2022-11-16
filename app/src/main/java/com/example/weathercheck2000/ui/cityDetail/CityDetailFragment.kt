@@ -13,6 +13,7 @@ import com.example.weathercheck2000.R
 import com.example.weathercheck2000.WeatherCheckApplication
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.databinding.FragmentCityDetailBinding
+import com.example.weathercheck2000.mapOfWeatherCodes
 import com.example.weathercheck2000.network.WeatherApi
 import com.example.weathercheck2000.viewModels.CitiesViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -54,7 +55,8 @@ class CityDetailFragment : Fragment() {
 
         var temperatureMin = "(loading...)"
         var temperatureMax = "(loading...)"
-        var temperatureNow = "(loading...)"
+        //var temperatureNow = "(loading...)"
+        var weatherCode = "XX"
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 // fetch forecast
@@ -63,13 +65,22 @@ class CityDetailFragment : Fragment() {
                 temperatureMax = forecastResult.daily.temperature2mMax.first().toString()
                 // fetch current weather
                 val actualWeather = WeatherApi.retrofitService.requestCurrentWeather(viewModel.city.value!!.lat,viewModel.city.value!!.lon)
-                temperatureNow = actualWeather.currentWeather.temperature.toString()
+                //temperatureNow = actualWeather.currentWeather.temperature
+                weatherCode = actualWeather.currentWeather.weathercode
             } catch (e: Exception) {
                 Log.e("Error", e.message.toString())
             }
             binding.temperatureMinValue.text        = "$temperatureMin °C"
             binding.temperatureMaxValue.text        = "$temperatureMax °C"
            // binding.temperatureCurrentValue.text    = "$temperatureNow °C"
+
+            // Weather codes images
+            if (!mapOfWeatherCodes.containsKey(weatherCode)) weatherCode = "X"
+
+            binding.weathercodeImage.setImageResource(mapOfWeatherCodes[weatherCode]!!.imageId)
+            binding.weathercodeExplanation.text = mapOfWeatherCodes[weatherCode]!!.description
+            // ^^ same thing
+
         }
     }
 
