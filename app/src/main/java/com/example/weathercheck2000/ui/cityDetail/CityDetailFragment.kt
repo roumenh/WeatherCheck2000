@@ -44,7 +44,7 @@ class CityDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //  THIS IS NECESSARY IN ORDER TO CONNECT THE DOTS BETWEEN FUNCTIONS FROM LAYOUT
         //  YEAH
-        Log.d("binding",binding.toString())
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.cityDetailFragment = this@CityDetailFragment  // it kinda works/ does not work even without this
@@ -62,14 +62,14 @@ class CityDetailFragment : Fragment() {
                 temperatureMin = forecastResult.daily.temperature2mMin.first().toString()
                 temperatureMax = forecastResult.daily.temperature2mMax.first().toString()
                 // fetch current weather
-                val actualWeather = WeatherApi.retrofitService.getCurrentWeather(viewModel.city.value!!.lat,viewModel.city.value!!.lon)
+                val actualWeather = WeatherApi.retrofitService.requestCurrentWeather(viewModel.city.value!!.lat,viewModel.city.value!!.lon)
                 temperatureNow = actualWeather.currentWeather.temperature.toString()
             } catch (e: Exception) {
                 Log.e("Error", e.message.toString())
             }
             binding.temperatureMinValue.text        = "$temperatureMin °C"
             binding.temperatureMaxValue.text        = "$temperatureMax °C"
-            binding.temperatureCurrentValue.text    = "$temperatureNow °C"
+           // binding.temperatureCurrentValue.text    = "$temperatureNow °C"
         }
     }
 

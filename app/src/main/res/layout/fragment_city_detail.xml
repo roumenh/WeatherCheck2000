@@ -17,11 +17,26 @@
         android:layout_height="match_parent"
         tools:context=".ui.cityDetail.CityDetailFragment">
 
+        <ImageButton
+            android:id="@+id/delete_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="delete city"
+            android:minHeight="48dp"
+            android:onClick="@{() -> cityDetailFragment.deleteCity(viewModel.city)}"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:orientation="vertical">
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="170dp"
+            tools:layout_editor_absoluteY="273dp">
 
             <TextView
                 android:id="@+id/city_name"
@@ -41,18 +56,21 @@
                 <TextView
                     android:id="@+id/temperature_current_label"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Current temperature"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:text="@string/current_temperature"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:gravity="center_vertical"/>
 
                 <TextView
                     android:id="@+id/temperature_current_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="loading..."
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:textSize="40sp"
+                    android:text="@{viewModel.currentWeatherConditions.currentWeather.temperature+' '+@string/celsius}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:gravity="end"/>
             </LinearLayout>
 
             <LinearLayout
@@ -79,6 +97,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_temperature_max"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -105,16 +124,67 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/delete_city"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linear_wind"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="delete city"
-                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                android:onClick="@{() -> cityDetailFragment.deleteCity(viewModel.city)}"/>
+                android:layout_marginTop="1dp"
+                android:baselineAligned="false"
+                android:paddingBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_temperature_max">
+
+                <ImageView
+                    android:id="@+id/wind_direction_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rotation="@{viewModel.currentWeatherConditions.currentWeather.winddirection}"
+                    app:srcCompat="@drawable/arrow"
+                    app:tint="#8BC34A" />
+
+                <TextView
+                    android:id="@+id/windspeed"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@{viewModel.currentWeatherConditions.currentWeather.windspeed+' '+@string/kilometers_per_hour}"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:baselineAligned="false"
+                android:paddingBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_wind">
+
+                <ImageView
+                    android:id="@+id/weathercode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_home_black_24dp"
+                    app:tint="#8BC34A" />
+
+                <TextView
+                    android:id="@+id/weathercode_image"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@{viewModel.currentWeatherConditions.currentWeather.weathercode}"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

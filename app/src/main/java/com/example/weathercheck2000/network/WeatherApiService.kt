@@ -31,10 +31,10 @@ interface WeatherApiService{
 
     // https://api.open-meteo.com/v1/forecast?latitude=38.7072&longitude=-9.1355&current_weather=true&timezone=Europe%2FLondon
     @GET("forecast/?current_weather=true&timezone=Europe%2FLondon")  // latitude={latitude}&longitude{longitude}&
-    suspend fun getCurrentWeather(
+    suspend fun requestCurrentWeather(
         @Query("latitude") latitude : String,
         @Query("longitude") longitude : String
-    ) : CurrentWeather
+    ) : CurrentWeatherConditions
 
 
 }

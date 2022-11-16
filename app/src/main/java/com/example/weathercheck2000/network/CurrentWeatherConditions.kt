@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CurrentWeather(
+data class CurrentWeatherConditions(
     @Json(name = "current_weather")         val currentWeather: CurrentWeather,
     @Json(name = "elevation")               val elevation: Double,
     @Json(name = "generationtime_ms")       val generationtimeMs: Double,
@@ -17,10 +17,11 @@ data class CurrentWeather(
 ) {
     @JsonClass(generateAdapter = true)
     data class CurrentWeather(
-        @Json(name = "temperature")        val temperature: Double,
+        @Json(name = "temperature")        val temperature: String,     // was Double
         @Json(name = "time")               val time: String,
-        @Json(name = "weathercode")        val weathercode: Int,
-        @Json(name = "winddirection")      val winddirection: Double,
-        @Json(name = "windspeed")          val windspeed: Double
+        @Json(name = "weathercode")        val weathercode: String,     // was Int
+        // TODO learn to understand how to handle if for some case I wish to have String, for other Int.
+        @Json(name = "winddirection")      val winddirection: Float,    // was Double
+        @Json(name = "windspeed")          val windspeed: String        // was Double
     )
 }

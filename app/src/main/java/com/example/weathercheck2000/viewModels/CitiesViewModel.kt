@@ -2,10 +2,9 @@ package com.example.weathercheck2000.viewModels
 
 import CitiesRepository
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.weathercheck2000.database.cities.Cities
-import com.example.weathercheck2000.database.cities.CitiesDao
+import com.example.weathercheck2000.network.CurrentWeatherConditions
 import com.example.weathercheck2000.network.WeatherApi
 import java.lang.IllegalArgumentException
 import kotlinx.coroutines.launch
@@ -20,18 +19,17 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     private val _city = MutableLiveData<Cities>()
     var city : LiveData<Cities> = _city
 
+    // to store current weather for the selected city.
+    private val _currentWeatherConditions = MutableLiveData<CurrentWeatherConditions>()
+    var currentWeatherConditions : LiveData<CurrentWeatherConditions> = _currentWeatherConditions
+
     private val _testText = MutableLiveData<String>()
     var testText: LiveData<String> = _testText
     // fun getAllCities(): Flow<List<Cities>> = citiesDao.getAll() // DAO
     val allCities: LiveData<MutableList<Cities>> = repository.allCities.asLiveData()  // Repository
 
-    /*
-    fun insertNewCity() = viewModelScope.launch{
-        citiesDao.insertCity(Cities(13,"Brno","111","222"))
-    }
-    */
 
-    private fun getWeatherForecast(latitude : String, longitude : String){
+    private fun requestWeatherForecast(latitude : String, longitude : String){
         viewModelScope.launch {
             try {
                 val result = WeatherApi.retrofitService.getForecast(latitude, longitude)
@@ -46,10 +44,7 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
     }
 
     init {
-        //userInputCity.value = ""
-        //_inputCity.value = "Praha"
         _testText.value = "test text"
-        //getWeatherForecast("38.7072","-9.1355")
         Log.d("viewModel","Init")
     }
 
@@ -89,11 +84,14 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){  
 
     fun setDetailCity(newCity: Cities){
         _city.value = newCity
-        /*
-        val listOfCities = allCities.value
-        _city.value = listOfCities?.get(position)
-        */
-        Log.d("listOfCities",city.value!!.name)
+        viewModelScope.launch {
+            try {
+                _currentWeatherConditions.value =
+                    WeatherApi.retrofitService.requestCurrentWeather(city.value!!.lat,city.value!!.lon)
+            }catch (e: Exception){
+                Log.d("Error",e.message.toString())
+            }
+        }
     }
 
 
