@@ -24,19 +24,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:text="@string/add_city_hint"
             android:textAlignment="center"
             android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/city_name_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/add_city_hint"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/city_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_dashboard">
@@ -53,6 +57,9 @@
             android:id="@+id/city_latitude_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/city_name_input">
@@ -60,10 +67,10 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Latitude"
                 android:digits="0,1,2,3,4,5,6,7,8,9,-,."
-                android:inputType = "numberDecimal"
-                android:text="@={viewModel.userInputLatitude}"/>
+                android:hint="Latitude"
+                android:inputType="numberDecimal"
+                android:text="@={viewModel.userInputLatitude}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,6 +78,9 @@
             android:id="@+id/city_longitude_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/city_latitude_input">
@@ -78,10 +88,10 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Longitude"
-                android:inputType = "numberDecimal"
                 android:digits="0,1,2,3,4,5,6,7,8,9,-,."
-                android:text="@={viewModel.userInputLongitude}"/>
+                android:hint="Longitude"
+                android:inputType="numberDecimal"
+                android:text="@={viewModel.userInputLongitude}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,8 +99,9 @@
             android:id="@+id/add_city_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add city"
+            android:layout_marginEnd="8dp"
             android:onClick="@{() -> dashboardFragment.clickInsertNewCity()}"
+            android:text="Add city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/city_longitude_input" />
     </androidx.constraintlayout.widget.ConstraintLayout>

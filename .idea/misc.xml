@@ -8,6 +8,10 @@
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/code1.xml" value="0.1" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/code2.xml" value="0.1" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/code2_background.xml" value="0.1" />
+        <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/code45.xml" value="0.1" />
+        <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/code56.xml" value="0.1" />
+        <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/ic__795626_weather_cloud_cloudy_sky_icon.xml" value="0.1" />
+        <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/ic__795637_weather_day_wind_breeze_cloud_icon.xml" value="0.1" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/loading_img.xml" value="0.1" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/drawable/round.xml" value="0.2635" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
@@ -16,6 +20,7 @@
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/fragment_dashboard.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/layout/fragment_notifications.xml" value="0.11614583333333334" />
+        <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/menu/bottom_nav_menu.xml" value="0.259375" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/mipmap-anydpi-v26/code2.xml" value="0.1" />
         <entry key="..\:/AndroidSDK/Projects/WeatherCheck2000/app/src/main/res/mipmap-anydpi-v26/code2_round.xml" value="0.1" />
       </map>

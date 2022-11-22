@@ -17,17 +17,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.cityDetail.CityDetailFragment">
 
-        <ImageButton
-            android:id="@+id/delete_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="delete city"
-            android:minHeight="48dp"
-            android:onClick="@{() -> cityDetailFragment.deleteCity(viewModel.city)}"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout"
-            app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -191,6 +181,18 @@
 
             </LinearLayout>
 
+
+            <ImageButton
+                android:id="@+id/delete_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="delete city"
+                android:minHeight="48dp"
+                android:onClick="@{() -> cityDetailFragment.deleteCity(viewModel.city)}"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

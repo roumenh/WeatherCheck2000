@@ -7,5 +7,6 @@
     <string name="kilometers_per_hour"> km/h</string>
     <string name="current_temperature">Current temperature</string>
     <string name="add_city_hint">Enter the city name and its coordinates.</string>
+    <string name="fragment_city_detail">City weather detail</string>
 
 </resources>
