@@ -6,4 +6,4 @@ app by Roman Hruska
 - for each city fetch temperature forecasts, wind speed, wind orientation and image.
 - delete, insert city.
 
-![app screenshot](https://github.com/roumenh/WeatherCheck2000/blob/main/app_screenshot.jpg?raw=true)
+![app screenshot](https://github.com/roumenh/WeatherCheck2000/blob/main/app_screenshots.jpg?raw=true)
