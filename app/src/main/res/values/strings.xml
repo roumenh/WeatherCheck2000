@@ -1,12 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Weather Check 2000</string>
     <string name="title_home">All cities</string>
     <string name="title_dashboard">Add City</string>
     <string name="title_notifications">Notifications</string>
-    <string name="celsius"> °C</string>
-    <string name="kilometers_per_hour"> km/h</string>
+    <string name="celsius">%1$s °C</string>
+    <string name="kilometers_per_hour">%1$s km/h</string>
     <string name="current_temperature">Current temperature</string>
     <string name="add_city_hint">Enter the city name and its coordinates.</string>
     <string name="fragment_city_detail">City weather detail</string>
+    <string name="minimum_temperature">Minimal temperature</string>
+    <string name="maximum_temperature">Maximal temperature</string>
+
 
 </resources>

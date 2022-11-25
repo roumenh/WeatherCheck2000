@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/current_temperature"
+                    android:text="@{@string/current_temperature}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:gravity="center_vertical"/>
 
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="40sp"
-                    android:text="@{String.valueOf(viewModel.currentWeatherConditions.currentWeather.temperature)+' '+@string/celsius}"
+                    android:text="@{@string/celsius(String.valueOf(viewModel.currentWeatherConditions.currentWeather.temperature))}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:gravity="end"/>
             </LinearLayout>
@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Minimum temperature"
+                    android:text="@{@string/minimum_temperature}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Maximum temperature"
+                    android:text="@{@string/maximum_temperature}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
@@ -138,7 +138,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@{String.valueOf(viewModel.currentWeatherConditions.currentWeather.windSpeed)+' '+@string/kilometers_per_hour}"
+                    android:text="@{@string/kilometers_per_hour(String.valueOf(viewModel.currentWeatherConditions.currentWeather.windSpeed))}"
                     android:gravity="center_vertical"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
