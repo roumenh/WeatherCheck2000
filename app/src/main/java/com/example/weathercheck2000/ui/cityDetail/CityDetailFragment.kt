@@ -51,8 +51,6 @@ class CityDetailFragment : Fragment() {
         binding.cityDetailFragment = this@CityDetailFragment  // it kinda works/ does not work even without this
 
 
-
-
         var temperatureMin = "(loading...)"
         var temperatureMax = "(loading...)"
         //var temperatureNow = "(loading...)"
@@ -66,7 +64,7 @@ class CityDetailFragment : Fragment() {
                 // fetch current weather
                 val actualWeather = WeatherApi.retrofitService.requestCurrentWeather(viewModel.city.value!!.lat,viewModel.city.value!!.lon)
                 //temperatureNow = actualWeather.currentWeather.temperature
-                weatherCode = actualWeather.currentWeather.weathercode
+                weatherCode = actualWeather.currentWeather.weatherCode.toString() // TODO in future ENUM
             } catch (e: Exception) {
                 Log.e("Error", e.message.toString())
             }

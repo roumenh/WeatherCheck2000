@@ -55,9 +55,6 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){
         // TODO data validation (latitude, longitude)
         // TODO - idea - pick coordinates from map or from current position GPS
 
-        // WHY - it is interesting that after submitting , the fields will be cleared if I want to
-        // submit another city. If I dont submit, it will keep double-binded to the variables
-        // but if submit - it will clear. Why?
 
             Log.d("Cities","test")
 

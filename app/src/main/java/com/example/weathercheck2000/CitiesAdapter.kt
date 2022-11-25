@@ -58,15 +58,15 @@ class CitiesAdapter (val clickListener: CitiesListener) :
     //override the onBindViewHolder() to bind the view at the specified position
     override fun onBindViewHolder(holder: CitiesAdapter.CitiesViewHolder, position: Int) {
         val item = getItem(position)
-        var temperature = "(loading...)"
+        var temperature: String
         var weatherCode = "X"
         CoroutineScope(Dispatchers.Main).launch {
             // TODO : Not ideal! Should be done somehow better
             // TODO: This is probably not correct, need to improve, but don't know how yet
             try {
                 val result = WeatherApi.retrofitService.requestCurrentWeather(item.lat,item.lon)
-                temperature = result.currentWeather.temperature
-                weatherCode = result.currentWeather.weathercode
+                temperature = result.currentWeather.temperature.toString()
+                weatherCode = result.currentWeather.weatherCode.toString()
                 Log.d("RetrofitCoroutine", temperature)
 
             } catch (e: Exception) {
