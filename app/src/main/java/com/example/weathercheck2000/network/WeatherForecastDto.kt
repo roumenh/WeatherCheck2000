@@ -8,7 +8,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ForecastDto(
+data class WeatherForecastDto(
     val daily: DailyDto,
     @Json(name = "daily_units")
     val dailyUnits: DailyUnitsDto,

@@ -64,7 +64,7 @@ class CitiesAdapter (val clickListener: CitiesListener) :
             // TODO : Not ideal! Should be done somehow better
             // TODO: This is probably not correct, need to improve, but don't know how yet
             try {
-                val result = WeatherApi.retrofitService.requestCurrentWeather(item.lat,item.lon)
+                val result = WeatherApi.retrofitService.getCurrentWeather(item.lat,item.lon)
                 temperature = result.currentWeather.temperature.toString()
                 weatherCode = result.currentWeather.weatherCode.toString()
                 Log.d("RetrofitCoroutine", temperature)

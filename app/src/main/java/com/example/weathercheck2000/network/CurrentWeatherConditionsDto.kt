@@ -4,16 +4,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CurrentWeatherConditions(
+data class CurrentWeatherConditionsDto(
     @Json(name = "current_weather")
-    val currentWeather: CurrentWeather,
-    @Json(name = "elevation")
+    val currentWeather: CurrentWeatherDto,
     val elevation: Double,
     @Json(name = "generationtime_ms")
     val generationtimeMs: Double,
-    @Json(name = "latitude")
     val latitude: Double,
-    @Json(name = "longitude")
     val longitude: Double,
     @Json(name = "timezone")
     val timezone: String,
@@ -23,10 +20,8 @@ data class CurrentWeatherConditions(
     val utcOffsetSeconds: Int
 ) {
     @JsonClass(generateAdapter = true)
-    data class CurrentWeather(
-        @Json(name = "temperature")
+    data class CurrentWeatherDto(
         val temperature: Double,
-        @Json(name = "time")
         val time: String,
         @Json(name = "weathercode")
         val weatherCode: Int,

@@ -10,9 +10,15 @@ fun CityDetailScreen(
 ) {
     Column {
         Text ("aha")
-        uiState.meteoInfo?.let {
+        uiState.forecast?.let {
             Text("today min: " + it.todayMinTemperature.toString() + " celsius")
             Text("today max: " + it.todayMaxTemperature.toString() + " celsius")
+        }
+        uiState.current?.let {
+            Text("current: " + it.temperature.toString() + " celsius")
+            Text("wind: " + it.windDirection.toString() + " direction")
+            Text("wind: " + it.windSpeed.toString() + " speed")
+            Text("weather code: " + it.weatherCode.toString() + " ou ou")
         }
     }
 

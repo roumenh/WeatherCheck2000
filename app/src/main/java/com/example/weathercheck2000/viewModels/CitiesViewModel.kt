@@ -3,10 +3,9 @@ package com.example.weathercheck2000.viewModels
 import CitiesRepository
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.weathercheck2000.R
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.mapOfWeatherCodes
-import com.example.weathercheck2000.network.CurrentWeatherConditions
+import com.example.weathercheck2000.network.CurrentWeatherConditionsDto
 import com.example.weathercheck2000.network.WeatherApi
 import java.lang.IllegalArgumentException
 import kotlinx.coroutines.launch
@@ -21,8 +20,8 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){
     var city : LiveData<Cities> = _city
 
     // to store current weather for the selected city.
-    private val _currentWeatherConditions = MutableLiveData<CurrentWeatherConditions>()
-    var currentWeatherConditions : LiveData<CurrentWeatherConditions> = _currentWeatherConditions
+    private val _currentWeatherConditions = MutableLiveData<CurrentWeatherConditionsDto>()
+    var currentWeatherConditions : LiveData<CurrentWeatherConditionsDto> = _currentWeatherConditions
 
     private val _testText = MutableLiveData<String>()
     var testText: LiveData<String> = _testText
@@ -90,7 +89,7 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){
         viewModelScope.launch {
             try {
                 _currentWeatherConditions.value =
-                    WeatherApi.retrofitService.requestCurrentWeather(city.value!!.lat,city.value!!.lon)
+                    WeatherApi.retrofitService.getCurrentWeather(city.value!!.lat,city.value!!.lon)
                 mapOfWeatherCodes["1"]!!.imageId.toString()
             }catch (e: Exception){
                 Log.d("Error",e.message.toString())

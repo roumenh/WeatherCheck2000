@@ -1,19 +1,16 @@
 package com.example.weathercheck2000.data.model
 
-import com.example.weathercheck2000.network.ForecastDto
+import com.example.weathercheck2000.network.WeatherForecastDto
 
-data class MeteoInfo(
-    val currentTemperature: Double,
+data class WeatherForecast(
     val todayMinTemperature: Double,
     val todayMaxTemperature: Double,
     //todo add more
     //,...
 )
 
-fun ForecastDto.asMeteoInfo() =
-    MeteoInfo(
-        currentTemperature = 0.0,
+fun WeatherForecastDto.asWeatherForecast() =
+    WeatherForecast(
         todayMinTemperature = this.daily.temperature2mMin.first(),
         todayMaxTemperature = this.daily.temperature2mMax.first(),
-
     )

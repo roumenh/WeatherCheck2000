@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="40sp"
-                    android:text="@{@string/celsius(String.valueOf(viewModel.currentWeatherConditions.currentWeather.temperature))}"
+                    android:text=""
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:gravity="end"/>
             </LinearLayout>
@@ -129,7 +129,7 @@
                     android:id="@+id/wind_direction_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:rotation="@{Float.valueOf(String.valueOf(viewModel.currentWeatherConditions.currentWeather.windDirection))}"
+                    android:rotation="0.5"
                     app:srcCompat="@drawable/arrow"
                     app:tint="#8BC34A" />
 
@@ -138,7 +138,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@{@string/kilometers_per_hour(String.valueOf(viewModel.currentWeatherConditions.currentWeather.windSpeed))}"
+                    android:text=""
                     android:gravity="center_vertical"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -166,7 +166,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@{String.valueOf(viewModel.currentWeatherConditions.currentWeather.weatherCode)}"
+                    android:text=""
                     android:gravity="center_vertical"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
