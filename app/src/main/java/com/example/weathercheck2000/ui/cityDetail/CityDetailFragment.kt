@@ -10,30 +10,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.weathercheck2000.R
-import com.example.weathercheck2000.WeatherCheckApplication
 import com.example.weathercheck2000.database.cities.Cities
-import com.example.weathercheck2000.databinding.FragmentCityDetailBinding
-import com.example.weathercheck2000.viewModels.CitiesViewModel
-import kotlinx.coroutines.launch
 
 class CityDetailFragment : Fragment() {
 
-    // attach shared View Model
-    private val OLDviewModel: CitiesViewModel by activityViewModels {
-        CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
-    }
-
     private val viewModel by viewModels<CityDetailViewModel>()
-
-    private var _binding: FragmentCityDetailBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,11 +82,6 @@ class CityDetailFragment : Fragment() {
         }
         */
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     //----------------------------
