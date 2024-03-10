@@ -1,50 +1,67 @@
 package com.example.weathercheck2000.ui.cityDetail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.weathercheck2000.R
 import com.example.weathercheck2000.WeatherCheckApplication
 import com.example.weathercheck2000.database.cities.Cities
 import com.example.weathercheck2000.databinding.FragmentCityDetailBinding
-import com.example.weathercheck2000.mapOfWeatherCodes
-import com.example.weathercheck2000.network.WeatherApi
 import com.example.weathercheck2000.viewModels.CitiesViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CityDetailFragment : Fragment() {
 
     // attach shared View Model
-    private val viewModel: CitiesViewModel by activityViewModels {
+    private val OLDviewModel: CitiesViewModel by activityViewModels {
         CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
     }
 
+    private val viewModel by viewModels<CityDetailViewModel>()
+
     private var _binding: FragmentCityDetailBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCityDetailBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                MaterialTheme {
+
+                    val uiState by viewModel.uiState.collectAsState()
+
+                    CityDetailScreen(uiState = uiState)
+                }
+            }
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //  THIS IS NECESSARY IN ORDER TO CONNECT THE DOTS BETWEEN FUNCTIONS FROM LAYOUT
-        //  YEAH
+
+
+
+
+        /*// ----------- VYMAZAT --------------------------
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -78,8 +95,9 @@ class CityDetailFragment : Fragment() {
             binding.weathercodeImage.setImageResource(mapOfWeatherCodes[weatherCode]!!.imageId)
             binding.weathercodeExplanation.text = mapOfWeatherCodes[weatherCode]!!.description
             // ^^ same thing
-
         }
+        */
+
     }
 
     override fun onDestroyView() {
@@ -89,7 +107,7 @@ class CityDetailFragment : Fragment() {
 
     //----------------------------
     fun deleteCity(cities: Cities){
-        viewModel.deleteSelectedCity(cities)
+      //  viewModel.deleteSelectedCity(cities)
         findNavController().navigate(R.id.action_navigation_city_detail_to_navigation_home)
     }
 }
