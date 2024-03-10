@@ -1,7 +1,6 @@
-package com.example.weathercheck2000.ui.cityDetail;
+package com.example.weathercheck2000.ui.cityDetail
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,10 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weathercheck2000.R
@@ -34,8 +29,12 @@ import com.example.weathercheck2000.data.model.WeatherForecast
 
 @Composable
 fun CityDetailScreen(
-    uiState: CityDetailUiState
+    uiState: CityDetailUiState,
+    cityName: String,
 ) {
+
+
+
     Scaffold(
         modifier = Modifier.padding(16.dp),
         containerColor = Color.Transparent,
@@ -48,7 +47,7 @@ fun CityDetailScreen(
         ) {
 
             Text (
-                text = "City name", //TODO replace with the actual city
+                text = cityName, //TODO replace with the actual city
                 style = MaterialTheme.typography.headlineLarge,
             )
 
@@ -110,7 +109,7 @@ fun CityDetailScreen(
 
                 Row(){
                     Icon(
-                        painter = painterResource(R.drawable.cyclone_24px),
+                        painter = painterResource(R.drawable.air_24px),
                         contentDescription = stringResource(id = R.string.current_temperature)
                     )
                     Text(stringResource(R.string.kilometers_per_hour, it.windSpeed.toString()))
@@ -137,7 +136,8 @@ fun CityDetailScreen(
 @Composable
 fun CityDetailScreenPreview(){
     MaterialTheme {
-        CityDetailScreen(uiState =
+        CityDetailScreen(
+            uiState =
             CityDetailUiState(
                 forecast = WeatherForecast(
                     todayMinTemperature = 5.0,
@@ -152,7 +152,8 @@ fun CityDetailScreenPreview(){
                         "Clear sky"
                     ),
                 )
-            )
+            ),
+            cityName = "Paris"
         )
     }
 }

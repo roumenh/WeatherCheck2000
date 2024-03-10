@@ -1,5 +1,8 @@
 package com.example.weathercheck2000.ui.cityDetail
 
+// TODO To be removed
+
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,9 +33,11 @@ class CityDetailFragment : Fragment() {
             setContent {
                 MaterialTheme {
 
+
+
                     val uiState by viewModel.uiState.collectAsState()
 
-                    CityDetailScreen(uiState = uiState)
+                    //CityDetailScreen(uiState = uiState)
                 }
             }
         }
