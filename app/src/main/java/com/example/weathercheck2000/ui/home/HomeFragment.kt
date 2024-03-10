@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
         //assign the adapter property
         val citiesAdapter = CitiesAdapter(CitiesAdapter.CitiesListener { cities ->
             viewModel.setDetailCity(cities)
-            findNavController().navigate(R.id.action_navigation_home_to_cityDetailFragment)
+        //    findNavController().navigate(R.id.action_navigation_home_to_cityDetailFragment)
             // TODO add arguments? is it necessary?
             })
         recyclerView.adapter = citiesAdapter

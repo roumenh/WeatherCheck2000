@@ -10,9 +10,6 @@
         android:name="com.example.weathercheck2000.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_navigation_home_to_cityDetailFragment"
-            app:destination="@id/navigation_city_detail" />
     </fragment>
 
     <fragment
@@ -31,12 +28,4 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
-    <fragment
-        android:id="@+id/navigation_city_detail"
-        android:name="com.example.weathercheck2000.ui.cityDetail.CityDetailFragment"
-        android:label="@string/fragment_city_detail" >
-        <action
-            android:id="@+id/action_navigation_city_detail_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
 </navigation>
