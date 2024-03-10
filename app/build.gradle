@@ -40,6 +40,10 @@ android {
     buildFeatures {
         dataBinding true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.10"
+    }
+    namespace 'com.example.weathercheck2000'
 }
 
 
