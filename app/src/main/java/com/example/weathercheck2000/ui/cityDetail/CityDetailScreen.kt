@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weathercheck2000.R
-import com.example.weathercheck2000.WeatherCode
 import com.example.weathercheck2000.data.model.CurrentWeather
+import com.example.weathercheck2000.data.model.WeatherCode
 import com.example.weathercheck2000.data.model.WeatherForecast
 
 @Composable

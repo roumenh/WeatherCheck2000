@@ -1,4 +1,4 @@
-package com.example.weathercheck2000.viewModels
+package com.example.weathercheck2000.oldViewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.weathercheck2000.data.model.mapOfWeatherCodes
 import com.example.weathercheck2000.data.repository.CitiesRepository
 import com.example.weathercheck2000.database.cities.City
-import com.example.weathercheck2000.mapOfWeatherCodes
 import com.example.weathercheck2000.network.WeatherApi
 import com.example.weathercheck2000.network.model.CurrentWeatherConditionsDto
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ class CitiesViewModel (
     init {
         _testText.value = "test text"
         Log.d("viewModel","Init")
-        Log.d("test",mapOfWeatherCodes["1"]!!.imageId.toString())
+        Log.d("test", mapOfWeatherCodes["1"]!!.imageId.toString())
     }
 
     fun insertNewCity() : Boolean {

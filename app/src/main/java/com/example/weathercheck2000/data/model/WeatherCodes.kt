@@ -1,10 +1,12 @@
-package com.example.weathercheck2000
+package com.example.weathercheck2000.data.model
+
+import com.example.weathercheck2000.R
 
 // weather codes data class.
 data class WeatherCode(val imageId: Int, val description: String)
 
 //map of weather codes
-val mapOfWeatherCodes : Map<String,WeatherCode> = mapOf(
+val mapOfWeatherCodes : Map<String, WeatherCode> = mapOf(
     "0" to WeatherCode(R.drawable.code0,"Clear sky"),
     "1" to WeatherCode(R.drawable.code1,"Mainly clear"),
     "2" to WeatherCode(R.drawable.code2,"Partly cloudly"),
