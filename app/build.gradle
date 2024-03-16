@@ -100,4 +100,10 @@ dependencies {
 
     implementation 'androidx.fragment:fragment-ktx:1.3.2'
 
+    // Koin core features
+    implementation(platform("io.insert-koin:koin-bom:$koin_version"))
+    implementation("io.insert-koin:koin-core")
+    implementation("io.insert-koin:koin-android:$koin_version")
+    implementation("io.insert-koin:koin-androidx-compose:$koin_version")
+
 }

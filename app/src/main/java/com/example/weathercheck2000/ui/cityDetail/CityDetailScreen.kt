@@ -34,7 +34,6 @@ fun CityDetailScreen(
 ) {
 
 
-
     Scaffold(
         modifier = Modifier.padding(16.dp),
         containerColor = Color.Transparent,

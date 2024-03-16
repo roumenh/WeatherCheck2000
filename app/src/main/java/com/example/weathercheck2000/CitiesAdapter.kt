@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weathercheck2000.database.cities.Cities
+import com.example.weathercheck2000.database.cities.City
 import com.example.weathercheck2000.databinding.CityItemBinding
 import com.example.weathercheck2000.network.WeatherApi
 import kotlinx.coroutines.CoroutineScope
@@ -14,14 +14,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CitiesAdapter (val clickListener: CitiesListener) :
-    ListAdapter<Cities, CitiesAdapter.CitiesViewHolder>(DiffCallback){
+    ListAdapter<City, CitiesAdapter.CitiesViewHolder>(DiffCallback){
 
     // Viewholder will allow to access views created from layout file in code
     class CitiesViewHolder(private var binding: CityItemBinding):
             RecyclerView.ViewHolder(binding.root){
-                fun bind(clickListener: CitiesListener, cities: Cities, temperature : String, weatherCode : String){
+                fun bind(clickListener: CitiesListener, city: City, temperature : String, weatherCode : String){
                     var theWeatherCode = weatherCode
-                    binding.cities = cities  // this won't work without the <data> tag in city_item.xaml
+                    binding.cities = city  // this won't work without the <data> tag in city_item.xaml
                     binding.clickListener = clickListener // without this, the click listener below and defined in city_item.xaml wont work
                     binding.cityTemperatureTextView.text = temperature
                     // ^^ TODO need to align this - how to connect Cities class with Forecast class?
@@ -35,8 +35,8 @@ class CitiesAdapter (val clickListener: CitiesListener) :
             }
 
     // inflate the layout....
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CitiesAdapter.CitiesViewHolder {
-        val viewHolder = CitiesAdapter.CitiesViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CitiesViewHolder {
+        val viewHolder = CitiesViewHolder(
             CityItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -79,8 +79,8 @@ class CitiesAdapter (val clickListener: CitiesListener) :
     }
 
     // lets try to setup a onclick listener first...
-    class CitiesListener(val clickListener: (cities: Cities) -> Unit) {
-        fun onClick(cities: Cities) = clickListener(cities)
+    class CitiesListener(val clickListener: (city: City) -> Unit) {
+        fun onClick(city: City) = clickListener(city)
     }
 
     /*
@@ -88,13 +88,13 @@ class CitiesAdapter (val clickListener: CitiesListener) :
     and old lists are different when updating the list.
     */
     companion object{
-        private val DiffCallback = object : DiffUtil.ItemCallback<Cities>(){
+        private val DiffCallback = object : DiffUtil.ItemCallback<City>(){
 
-            override fun areItemsTheSame(oldItem: Cities, newItem: Cities): Boolean {
+            override fun areItemsTheSame(oldItem: City, newItem: City): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Cities, newItem: Cities): Boolean {
+            override fun areContentsTheSame(oldItem: City, newItem: City): Boolean {
                 return oldItem == newItem
             }
         }

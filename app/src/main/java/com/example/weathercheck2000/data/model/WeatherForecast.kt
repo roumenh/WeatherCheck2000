@@ -1,6 +1,6 @@
 package com.example.weathercheck2000.data.model
 
-import com.example.weathercheck2000.network.WeatherForecastDto
+import com.example.weathercheck2000.network.model.WeatherForecastDto
 
 data class WeatherForecast(
     val todayMinTemperature: Double,

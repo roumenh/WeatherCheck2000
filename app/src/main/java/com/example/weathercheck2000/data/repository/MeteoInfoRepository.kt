@@ -6,15 +6,21 @@ import com.example.weathercheck2000.data.model.asCurrentWeather
 import com.example.weathercheck2000.data.model.asWeatherForecast
 import com.example.weathercheck2000.network.WeatherApi
 
-class MeteoInfoRepository {
+interface MeteoInfoRepository {
+    suspend fun getForecastForCity(lat: String, lon: String) : WeatherForecast
+    suspend fun getCurrentWeatherForCity(lat: String, lon: String) : CurrentWeather
+}
 
-    suspend fun getForecastForCity(lat: String, lon: String) : WeatherForecast {
+
+class MeteoInfoRepositoryImpl : MeteoInfoRepository {
+
+    override suspend fun getForecastForCity(lat: String, lon: String) : WeatherForecast {
 
         return WeatherApi.retrofitService.getForecast(lat, lon).asWeatherForecast()
 
     }
 
-    suspend fun getCurrentWeatherForCity(lat: String, lon: String) : CurrentWeather {
+    override suspend fun getCurrentWeatherForCity(lat: String, lon: String) : CurrentWeather {
 
         return WeatherApi.retrofitService.getCurrentWeather(lat, lon).asCurrentWeather()
 

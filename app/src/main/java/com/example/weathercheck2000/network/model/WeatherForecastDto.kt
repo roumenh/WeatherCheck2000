@@ -2,7 +2,7 @@
 replaced with CurrentWeather
  */
 
-package com.example.weathercheck2000.network
+package com.example.weathercheck2000.network.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

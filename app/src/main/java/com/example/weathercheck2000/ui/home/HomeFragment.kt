@@ -6,12 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weathercheck2000.CitiesAdapter
-import com.example.weathercheck2000.R
 import com.example.weathercheck2000.WeatherCheckApplication
 import com.example.weathercheck2000.databinding.FragmentHomeBinding
 import com.example.weathercheck2000.viewModels.CitiesViewModel
@@ -19,7 +16,7 @@ import com.example.weathercheck2000.viewModels.CitiesViewModel
 class HomeFragment : Fragment() {
 
     private val viewModel: CitiesViewModel by activityViewModels {
-        CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
+        CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).citiesRepository)
     }
 
     private var _binding: FragmentHomeBinding? = null
@@ -59,7 +56,7 @@ class HomeFragment : Fragment() {
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        viewModel.allCities.observe(viewLifecycleOwner) { cities ->
+        viewModel.allCity.observe(viewLifecycleOwner) { cities ->
             // Update the cached copy of the cities in the adapter.
             cities.let { citiesAdapter.submitList(it) }
         }

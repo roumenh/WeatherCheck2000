@@ -14,13 +14,16 @@ import com.example.weathercheck2000.ui.AppNavHost
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             MaterialTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavHost(navController = rememberNavController())
+                    AppNavHost(
+                        navController = rememberNavController()
+                    )
                 }
             }
         }

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.weathercheck2000.R
 import com.example.weathercheck2000.WeatherCheckApplication
@@ -19,7 +18,7 @@ class DashboardFragment : Fragment() {
 
 
     private val viewModel: CitiesViewModel by activityViewModels {
-        CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).repository)
+        CitiesViewModel.CitiesViewModelFactory((activity?.application as WeatherCheckApplication).citiesRepository)
     }
 
     private var _binding: FragmentDashboardBinding? = null

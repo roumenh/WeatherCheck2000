@@ -1,5 +1,7 @@
 package com.example.weathercheck2000.network
 
+import com.example.weathercheck2000.network.model.CurrentWeatherConditionsDto
+import com.example.weathercheck2000.network.model.WeatherForecastDto
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit

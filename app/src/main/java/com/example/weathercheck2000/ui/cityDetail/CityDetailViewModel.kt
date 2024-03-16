@@ -14,7 +14,9 @@ data class CityDetailUiState(
     val current: CurrentWeather?,
 )
 
-class CityDetailViewModel : ViewModel() {
+class CityDetailViewModel (
+    private val meteoInfoRepository: MeteoInfoRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CityDetailUiState(null, null))
     val uiState = _uiState.asStateFlow()
@@ -26,13 +28,11 @@ class CityDetailViewModel : ViewModel() {
     private fun fetchData(){
         viewModelScope.launch {
 
-            //TODO introduce DI for repository
-            val forecast = MeteoInfoRepository().getForecastForCity("25.5","25.0") //TODO , connect to actual city from the first screen
+            val forecast = meteoInfoRepository.getForecastForCity("25.5","25.0") //TODO , connect to actual city from the first screen
             _uiState.value = _uiState.value.copy(forecast = forecast)
             //TODO improve states...
 
-            //TODO introduce DI for repository
-            val current = MeteoInfoRepository().getCurrentWeatherForCity("25.5","25.0") //TODO , connect to actual city from the first screen
+            val current = meteoInfoRepository.getCurrentWeatherForCity("25.5","25.0") //TODO , connect to actual city from the first screen
             _uiState.value = _uiState.value.copy(current = current)
             //TODO improve states...
 

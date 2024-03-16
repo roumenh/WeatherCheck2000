@@ -9,7 +9,7 @@
             type="com.example.weathercheck2000.CitiesAdapter.CitiesListener" />
         <variable
             name="cities"
-            type="com.example.weathercheck2000.database.cities.Cities" />
+            type="com.example.weathercheck2000.database.cities.City" />
     </data>
 
     <LinearLayout

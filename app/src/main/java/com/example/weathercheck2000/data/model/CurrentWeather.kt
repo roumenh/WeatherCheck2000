@@ -2,7 +2,7 @@ package com.example.weathercheck2000.data.model
 
 import com.example.weathercheck2000.WeatherCode
 import com.example.weathercheck2000.mapOfWeatherCodes
-import com.example.weathercheck2000.network.CurrentWeatherConditionsDto
+import com.example.weathercheck2000.network.model.CurrentWeatherConditionsDto
 
 data class CurrentWeather (
     val temperature: Double,

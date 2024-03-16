@@ -1,23 +1,29 @@
 package com.example.weathercheck2000.viewModels
 
-import CitiesRepository
 import android.util.Log
-import androidx.lifecycle.*
-import com.example.weathercheck2000.database.cities.Cities
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.weathercheck2000.data.repository.CitiesRepository
+import com.example.weathercheck2000.database.cities.City
 import com.example.weathercheck2000.mapOfWeatherCodes
-import com.example.weathercheck2000.network.CurrentWeatherConditionsDto
 import com.example.weathercheck2000.network.WeatherApi
-import java.lang.IllegalArgumentException
+import com.example.weathercheck2000.network.model.CurrentWeatherConditionsDto
 import kotlinx.coroutines.launch
 
-class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){
+class CitiesViewModel (
+    private val repository: CitiesRepository
+): ViewModel(){
 
     val userInputCity = MutableLiveData<String>()
     val userInputLatitude = MutableLiveData<String>()
     val userInputLongitude = MutableLiveData<String>()
 
-    private val _city = MutableLiveData<Cities>()
-    var city : LiveData<Cities> = _city
+    private val _city = MutableLiveData<City>()
+    var city : LiveData<City> = _city
 
     // to store current weather for the selected city.
     private val _currentWeatherConditions = MutableLiveData<CurrentWeatherConditionsDto>()
@@ -26,7 +32,7 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){
     private val _testText = MutableLiveData<String>()
     var testText: LiveData<String> = _testText
     // fun getAllCities(): Flow<List<Cities>> = citiesDao.getAll() // DAO
-    val allCities: LiveData<MutableList<Cities>> = repository.allCities.asLiveData()  // Repository
+    val allCity: LiveData<MutableList<City>> = repository.allCities.asLiveData()  // Repository
 
 
     private fun requestWeatherForecast(latitude : String, longitude : String){
@@ -61,7 +67,7 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){
                 val name        = userInputCity.value!!
                 val latitude    = userInputLatitude.value!!
                 val longitude   = userInputLongitude.value!!
-                val newCity = Cities(name = name, lat = latitude, lon = longitude)
+                val newCity = City(name = name, lat = latitude, lon = longitude)
                 userInputCity.value = ""
                 userInputLatitude.value = ""
                 userInputLongitude.value = "" // maybe not ideal
@@ -76,7 +82,7 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){
 
     }
 
-    fun deleteSelectedCity(city: Cities) {
+    fun deleteSelectedCity(city: City) {
         viewModelScope.launch {
             repository.delete(city)
         }
@@ -84,7 +90,7 @@ class CitiesViewModel (private val repository: CitiesRepository): ViewModel(){
         // adapter is then behaving uncorrectly.
     }
 
-    fun setDetailCity(newCity: Cities){
+    fun setDetailCity(newCity: City){
         _city.value = newCity
         viewModelScope.launch {
             try {
