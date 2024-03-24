@@ -30,7 +30,7 @@ import com.example.weathercheck2000.data.model.WeatherForecast
 @Composable
 fun CityDetailScreen(
     uiState: CityDetailUiState,
-    cityName: String,
+    cityId: String,
 ) {
 
 
@@ -46,7 +46,7 @@ fun CityDetailScreen(
         ) {
 
             Text (
-                text = cityName, //TODO replace with the actual city
+                text = cityId, //TODO replace with the actual city
                 style = MaterialTheme.typography.headlineLarge,
             )
 
@@ -152,7 +152,7 @@ fun CityDetailScreenPreview(){
                     ),
                 )
             ),
-            cityName = "Paris"
+            cityId = "2"
         )
     }
 }

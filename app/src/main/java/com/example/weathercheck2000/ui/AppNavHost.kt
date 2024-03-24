@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import com.example.weathercheck2000.ui.cityDetail.CityDetailScreen
 import com.example.weathercheck2000.ui.cityDetail.CityDetailViewModel
 import com.example.weathercheck2000.ui.home.HomeScreen
+import com.example.weathercheck2000.ui.home.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
 
 enum class Screen {
@@ -38,25 +39,25 @@ fun AppNavHost(
         composable(NavigationItem.Home.route) {
 
 
-
-           // val viewModel: HomeViewModel = koinViewModel()
-          //  val uiState by viewModel.uiState.collectAsState()
+            val viewModel: HomeViewModel = koinViewModel()
+            val uiState by viewModel.uiState.collectAsState()
 
             HomeScreen(
-                onCityClicked = { navController.navigate(NavigationItem.CityDetail.route+"/"+it) }
+                onCityClicked = { NavigationItem.CityDetail.route+"/"+it.toString() },
+                uiState = uiState
             )
         }
 
         // -------- CITY DETAIL -----------------
-        composable(NavigationItem.CityDetail.route+"/{city}") { backStackEntry ->
-            val city = backStackEntry.arguments?.getString("city")
+        composable(NavigationItem.CityDetail.route+"/{cityId}") { backStackEntry ->
+            val cityId = backStackEntry.arguments?.getString("cityId")
 
             val viewModel: CityDetailViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsState()
 
             CityDetailScreen(
                 uiState = uiState,
-                cityName = city ?: "",
+                cityId = cityId ?: "",
             )
         }
     }
