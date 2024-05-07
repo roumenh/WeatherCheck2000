@@ -12,6 +12,9 @@ interface CitiesDao{
     @Query("SELECT * FROM city")
     fun getAll(): Flow<MutableList<City>>
 
+    @Query("SELECT * FROM city WHERE id = :cityId LIMIT 1")
+    fun getCity(cityId: Int): Flow<City>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertCity(city: City)
 

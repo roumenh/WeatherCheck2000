@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Weather Check 2000</string>
     <string name="title_home">All cities</string>
     <string name="title_dashboard">Add City</string>
@@ -10,6 +10,9 @@
     <string name="current_weather">Current weather conditions</string>
     <string name="todays_forecast">Today\'s forecast</string>
     <string name="add_city_hint">Enter the city name and its coordinates.</string>
+    <string name="add_city_name">City name</string>
+    <string name="add_city_latitude">City latitude / N (in decimal)</string>
+    <string name="add_city_longitude">City longitude / E(in decimal)</string>
     <string name="fragment_city_detail">City weather detail</string>
     <string name="minimum_temperature">Minimal temperature</string>
     <string name="maximum_temperature">Maximal temperature</string>

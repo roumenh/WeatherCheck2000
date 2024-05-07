@@ -12,22 +12,26 @@ import kotlinx.coroutines.launch
  */
 interface CitiesRepository {
 
-    val allCities:Flow<MutableList<City>>
+    val allCities: Flow<MutableList<City>>
+    fun getCity(id: Int): Flow<City>
     fun insert(city: City)
     fun delete(city: City)
 }
 
 class CitiesRepositoryImpl(private val citiesDao: CitiesDao) : CitiesRepository {
 
-    override val allCities:Flow<MutableList<City>> = citiesDao.getAll()
+    override val allCities: Flow<MutableList<City>> = citiesDao.getAll()
 
-    override fun insert(city: City){
+    override fun getCity(id: Int): Flow<City> =
+        citiesDao.getCity(id)
+
+    override fun insert(city: City) {
         CoroutineScope(Dispatchers.IO).launch {
             citiesDao.insertCity(city)
         }
     }
 
-    override fun delete(city: City){
+    override fun delete(city: City) {
         CoroutineScope(Dispatchers.IO).launch {
             citiesDao.deleteCity(city)
         }

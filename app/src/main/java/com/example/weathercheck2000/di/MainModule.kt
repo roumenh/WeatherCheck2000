@@ -32,7 +32,7 @@ val appModule = module {
     single<MeteoInfoRepository> { MeteoInfoRepositoryImpl() }
     single<CitiesRepository> { CitiesRepositoryImpl(get()) }
 
-    viewModel { CityDetailViewModel(get()) }
+    viewModel { CityDetailViewModel(get(), get()) }
     viewModel { AddCityViewModel(get()) }
     viewModel { HomeViewModel(get()) }
 

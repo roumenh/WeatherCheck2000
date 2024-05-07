@@ -20,6 +20,7 @@ enum class Screen {
     ADD_CITY,
     CITY,
 }
+
 sealed class NavigationItem(val route: String) {
     object Home : NavigationItem(Screen.HOME.name)
     object CityDetail : NavigationItem(Screen.CITY.name)
@@ -47,7 +48,7 @@ fun AppNavHost(
             val uiState by viewModel.uiState.collectAsState()
 
             HomeScreen(
-                onCityClicked = { navController.navigate(NavigationItem.CityDetail.route+"/"+it.toString()) },
+                onCityClicked = { navController.navigate(NavigationItem.CityDetail.route + "/" + it.toString()) },
                 onAddCityClicked = { navController.navigate(NavigationItem.AddCity.route) },
                 uiState = uiState
             )
@@ -57,23 +58,24 @@ fun AppNavHost(
         composable(NavigationItem.AddCity.route) {
 
             val viewModel: AddCityViewModel = koinViewModel()
-           // val uiState by viewModel.uiState.collectAsState()
+            // val uiState by viewModel.uiState.collectAsState()
 
             AddCityScreen(
-                onAddCity = { name,lat,lon -> viewModel.addCity(name,lat,lon) }
+                onAddCity = { name, lat, lon -> viewModel.addCity(name, lat, lon) }
             )
         }
 
         // -------- CITY DETAIL -----------------
-        composable(NavigationItem.CityDetail.route+"/{cityId}") { backStackEntry ->
-            val cityId = backStackEntry.arguments?.getString("cityId")
+        composable(NavigationItem.CityDetail.route + "/{cityId}") { backStackEntry ->
+            val cityId = backStackEntry.arguments?.getString("cityId")?.toInt() //Todo optimize
 
             val viewModel: CityDetailViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsState()
 
             CityDetailScreen(
                 uiState = uiState,
-                cityId = cityId ?: "",
+                cityId = cityId,
+                fetchData = { cityId?.let { viewModel.fetchData(it) } }
             )
         }
     }
