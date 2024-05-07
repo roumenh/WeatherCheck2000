@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,10 +19,13 @@ import com.example.weathercheck2000.database.cities.City
 fun HomeScreen(
     uiState: HomeUiState,
     onCityClicked: (Int) -> Unit,
+    onAddCityClicked: () -> Unit,
 ) {
 
     Column (
-        modifier = Modifier.padding(16.dp).fillMaxWidth()
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
     ) {
 
         Text (
@@ -37,6 +41,12 @@ fun HomeScreen(
             }
 
         }
+
+        HorizontalDivider()
+
+        Button(onClick = onAddCityClicked ) {
+            Text("Add city")
+        }
     }
 
 }
@@ -51,7 +61,8 @@ fun HomeScreenPreview() {
                     City(0, "Oslo", "1", "2")
                 )
             ),
-            onCityClicked = {}
+            onCityClicked = {},
+            onAddCityClicked = {},
         )
     }
 

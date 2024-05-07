@@ -7,6 +7,7 @@ import com.example.weathercheck2000.data.repository.MeteoInfoRepository
 import com.example.weathercheck2000.data.repository.MeteoInfoRepositoryImpl
 import com.example.weathercheck2000.database.AppDatabase
 import com.example.weathercheck2000.database.cities.CitiesDao
+import com.example.weathercheck2000.ui.addCity.AddCityViewModel
 import com.example.weathercheck2000.ui.cityDetail.CityDetailViewModel
 import com.example.weathercheck2000.ui.home.HomeViewModel
 import org.koin.android.ext.koin.androidContext
@@ -32,6 +33,7 @@ val appModule = module {
     single<CitiesRepository> { CitiesRepositoryImpl(get()) }
 
     viewModel { CityDetailViewModel(get()) }
+    viewModel { AddCityViewModel(get()) }
     viewModel { HomeViewModel(get()) }
 
 }

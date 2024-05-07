@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.weathercheck2000.ui.addCity.AddCityScreen
+import com.example.weathercheck2000.ui.addCity.AddCityViewModel
 import com.example.weathercheck2000.ui.cityDetail.CityDetailScreen
 import com.example.weathercheck2000.ui.cityDetail.CityDetailViewModel
 import com.example.weathercheck2000.ui.home.HomeScreen
@@ -15,11 +17,13 @@ import org.koin.androidx.compose.koinViewModel
 
 enum class Screen {
     HOME,
+    ADD_CITY,
     CITY,
 }
 sealed class NavigationItem(val route: String) {
     object Home : NavigationItem(Screen.HOME.name)
     object CityDetail : NavigationItem(Screen.CITY.name)
+    object AddCity : NavigationItem(Screen.ADD_CITY.name)
 }
 
 @Composable
@@ -43,8 +47,20 @@ fun AppNavHost(
             val uiState by viewModel.uiState.collectAsState()
 
             HomeScreen(
-                onCityClicked = { NavigationItem.CityDetail.route+"/"+it.toString() },
+                onCityClicked = { navController.navigate(NavigationItem.CityDetail.route+"/"+it.toString()) },
+                onAddCityClicked = { navController.navigate(NavigationItem.AddCity.route) },
                 uiState = uiState
+            )
+        }
+
+        // -------- ADD CITY -----------------
+        composable(NavigationItem.AddCity.route) {
+
+            val viewModel: AddCityViewModel = koinViewModel()
+           // val uiState by viewModel.uiState.collectAsState()
+
+            AddCityScreen(
+                onAddCity = { name,lat,lon -> viewModel.addCity(name,lat,lon) }
             )
         }
 

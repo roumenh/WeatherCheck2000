@@ -1,6 +1,5 @@
 package com.example.weathercheck2000.data.repository
 
-import androidx.annotation.WorkerThread
 import com.example.weathercheck2000.database.cities.CitiesDao
 import com.example.weathercheck2000.database.cities.City
 import kotlinx.coroutines.CoroutineScope
@@ -22,14 +21,12 @@ class CitiesRepositoryImpl(private val citiesDao: CitiesDao) : CitiesRepository 
 
     override val allCities:Flow<MutableList<City>> = citiesDao.getAll()
 
-    @WorkerThread
     override fun insert(city: City){
         CoroutineScope(Dispatchers.IO).launch {
             citiesDao.insertCity(city)
         }
     }
 
-    @WorkerThread
     override fun delete(city: City){
         CoroutineScope(Dispatchers.IO).launch {
             citiesDao.deleteCity(city)
