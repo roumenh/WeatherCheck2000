@@ -34,6 +34,6 @@ val mapOfWeatherCodes : Map<String, WeatherCode> = mapOf(
     "86" to WeatherCode(R.drawable.code75,"Heavy snow showers"),
     "95" to WeatherCode(R.drawable.code95,"Thunderstorm"),
     "96" to WeatherCode(R.drawable.code96,"Thunderstorm with slight hail"),
-    "99" to WeatherCode(R.drawable.code99,"Thunderstorm with heavvy hail"),
+    "99" to WeatherCode(R.drawable.code99,"Thunderstorm with heavy hail"),
     "X" to WeatherCode(R.drawable.unknown, "Undefined")
 )

@@ -54,90 +54,113 @@ fun CityDetailScreen(
                 Text("Loading or error")
             } else {
 
-                Text(
-                    text = uiState.cityName,
-                    style = MaterialTheme.typography.headlineLarge,
-                )
+                if (uiState is CityDetailUiState.Loading) {
+                    Text("Loading")
+                } else if (uiState is CityDetailUiState.Error) {
+                    Text("Error")
+                } else {
 
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
-
-                //Todays forecast
-                uiState.forecast?.let {
+                    val successState = uiState as CityDetailUiState.Success
 
                     Text(
-                        modifier = Modifier.padding(top = 16.dp),
-                        text = stringResource(R.string.todays_forecast),
-                        style = MaterialTheme.typography.headlineSmall
+                        text = successState.cityName,
+                        style = MaterialTheme.typography.headlineLarge,
                     )
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Text(stringResource(R.string.minimum_temperature))
-                        Spacer(Modifier.weight(1f))
-                        Text(stringResource(R.string.celsius, it.todayMinTemperature.toString()))
-                    }
+                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Text(stringResource(R.string.maximum_temperature))
-                        Spacer(Modifier.weight(1f))
-                        Text(stringResource(R.string.celsius, it.todayMaxTemperature.toString()))
-                    }
+                    //Todays forecast
+                    successState.forecast?.let {
 
-                }
-
-                //Current weather
-                uiState.current?.let {
-
-                    Text(
-                        modifier = Modifier.padding(top = 16.dp),
-                        text = stringResource(R.string.current_weather),
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-
-                    Row() {
-                        Icon(
-                            painter = painterResource(R.drawable.thermostat_24px),
-                            contentDescription = stringResource(id = R.string.current_temperature)
+                        Text(
+                            modifier = Modifier.padding(top = 16.dp),
+                            text = stringResource(R.string.todays_forecast),
+                            style = MaterialTheme.typography.headlineSmall
                         )
-                        Text(stringResource(R.string.celsius, it.temperature.toString()))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Text(stringResource(R.string.minimum_temperature))
+                            Spacer(Modifier.weight(1f))
+                            Text(
+                                stringResource(
+                                    R.string.celsius,
+                                    it.todayMinTemperature.toString()
+                                )
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Text(stringResource(R.string.maximum_temperature))
+                            Spacer(Modifier.weight(1f))
+                            Text(
+                                stringResource(
+                                    R.string.celsius,
+                                    it.todayMaxTemperature.toString()
+                                )
+                            )
+                        }
+
                     }
 
+                    //Current weather
+                    successState.current?.let {
 
-                    Image(
-                        modifier = Modifier
-                            .size(64.dp),
-                        painter = painterResource(id = it.weatherCode!!.imageId),
-                        contentDescription = it.weatherCode.description,
-                    )
-
-                    Spacer(Modifier.height(16.dp))
-
-                    Row() {
-                        Icon(
-                            painter = painterResource(R.drawable.air_24px),
-                            contentDescription = stringResource(id = R.string.current_temperature)
+                        Text(
+                            modifier = Modifier.padding(top = 16.dp),
+                            text = stringResource(R.string.current_weather),
+                            style = MaterialTheme.typography.headlineSmall
                         )
-                        Text(stringResource(R.string.kilometers_per_hour, it.windSpeed.toString()))
+
+                        Row() {
+                            Icon(
+                                painter = painterResource(R.drawable.thermostat_24px),
+                                contentDescription = stringResource(id = R.string.current_temperature)
+                            )
+                            Text(stringResource(R.string.celsius, it.temperature.toString()))
+                        }
+
+
+                        Image(
+                            modifier = Modifier
+                                .size(64.dp),
+                            painter = painterResource(id = it.weatherCode!!.imageId),
+                            contentDescription = it.weatherCode.description,
+                        )
+
+                        Spacer(Modifier.height(16.dp))
+
+                        Row() {
+                            Icon(
+                                painter = painterResource(R.drawable.air_24px),
+                                contentDescription = stringResource(id = R.string.current_temperature)
+                            )
+                            Text(
+                                stringResource(
+                                    R.string.kilometers_per_hour,
+                                    it.windSpeed.toString()
+                                )
+                            )
+                        }
+
+                        Image(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .rotate(it.windDirection.toFloat()),
+                            painter = painterResource(id = R.drawable.arrow),
+                            contentDescription = stringResource(
+                                R.string.kilometers_per_hour,
+                                it.windSpeed.toString()
+                            ),
+                        )
+
                     }
-
-                    Image(
-                        modifier = Modifier
-                            .size(64.dp)
-                            .rotate(it.windDirection.toFloat()),
-                        painter = painterResource(id = R.drawable.arrow),
-                        contentDescription = stringResource(
-                            R.string.kilometers_per_hour,
-                            it.windSpeed.toString()
-                        ),
-                    )
-
                 }
             }
         }
-
     }
 
 
@@ -150,7 +173,7 @@ fun CityDetailScreenPreview() {
     MaterialTheme {
         CityDetailScreen(
             uiState =
-            CityDetailUiState(
+            CityDetailUiState.Success(
                 cityName = "Brno",
                 forecast = WeatherForecast(
                     todayMinTemperature = 5.0,
