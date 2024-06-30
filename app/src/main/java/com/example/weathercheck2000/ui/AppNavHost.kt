@@ -61,7 +61,11 @@ fun AppNavHost(
             // val uiState by viewModel.uiState.collectAsState()
 
             AddCityScreen(
-                onAddCity = { name, lat, lon -> viewModel.addCity(name, lat, lon) }
+                onAddCity = { name, lat, lon ->
+                    if (viewModel.addCity(name, lat, lon)) {
+                        navController.navigate(NavigationItem.Home.route)
+                    } //TODO else show error somehow :) need to improve the view Model and UiState :)
+                }
             )
         }
 

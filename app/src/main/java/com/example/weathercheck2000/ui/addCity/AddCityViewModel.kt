@@ -13,7 +13,7 @@ class AddCityViewModel(
         userInputCity: String,
         userInputLatitude: String,
         userInputLongitude: String,
-    ) {
+    ) : Boolean {
 
         val name = userInputCity
         val latitude = userInputLatitude
@@ -23,8 +23,10 @@ class AddCityViewModel(
 
         try {
             repository.insert(newCity)
+            return true
         } catch (e: Exception) {
             Log.e("ADD_CITY error ", e.toString())
+            return false
         }
 
     }

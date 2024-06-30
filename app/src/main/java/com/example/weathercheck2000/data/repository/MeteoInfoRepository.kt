@@ -9,20 +9,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface MeteoInfoRepository {
-    suspend fun getForecastForCity(lat: String, lon: String) : Flow<WeatherForecast>
-    suspend fun getCurrentWeatherForCity(lat: String, lon: String) : Flow<CurrentWeather>
+    fun getForecastForCity(lat: String, lon: String) : Flow<WeatherForecast>
+    fun getCurrentWeatherForCity(lat: String, lon: String) : Flow<CurrentWeather>
 }
 
 
 class MeteoInfoRepositoryImpl : MeteoInfoRepository {
 
-    override suspend fun getForecastForCity(lat: String, lon: String) = flow {
+    override fun getForecastForCity(lat: String, lon: String) = flow {
 
         emit(WeatherApi.retrofitService.getForecast(lat, lon).asWeatherForecast())
 
     }
 
-    override suspend fun getCurrentWeatherForCity(lat: String, lon: String) = flow {
+    override fun getCurrentWeatherForCity(lat: String, lon: String) = flow {
 
         emit(WeatherApi.retrofitService.getCurrentWeather(lat, lon).asCurrentWeather())
 
