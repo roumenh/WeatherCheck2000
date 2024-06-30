@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 
 data class HomeUiState(
-    val citiesAndCurrentTemperatures: List<Pair<City, Double?>>?,
+    val citiesAndCurrentTemperatures: List<Pair<City, Double?>>,
 )
 
 class HomeViewModel(
@@ -24,7 +24,7 @@ class HomeViewModel(
     private val meteoInfoRepository: MeteoInfoRepository,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState(null))
+    private val _uiState = MutableStateFlow(HomeUiState(listOf()))
     val uiState = _uiState.asStateFlow()
 
     init {
