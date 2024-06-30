@@ -33,11 +33,11 @@ fun HomeScreen(
             style = MaterialTheme.typography.headlineLarge
         )
 
-        uiState.cities?.forEach {
+        uiState.citiesAndCurrentTemperatures?.forEach {
             Button(
-                onClick = { onCityClicked(it.id) }
+                onClick = { onCityClicked(it.first.id) }
             ){
-                Text (it.name)
+                Text (it.first.name + " - " + it.second.toString() + " °C")
             }
 
         }
@@ -57,8 +57,8 @@ fun HomeScreenPreview() {
     MaterialTheme {
         HomeScreen(
             uiState = HomeUiState(
-                listOf(
-                    City(0, "Oslo", "1", "2")
+                mutableListOf(
+                    City(0, "Oslo", "1", "2") to 10.0,
                 )
             ),
             onCityClicked = {},

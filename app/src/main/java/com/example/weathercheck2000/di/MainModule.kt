@@ -34,7 +34,7 @@ val appModule = module {
 
     viewModel { CityDetailViewModel(get(), get()) }
     viewModel { AddCityViewModel(get()) }
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get()) }
 
 }
 
