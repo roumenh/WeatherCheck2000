@@ -1,5 +1,6 @@
 package com.example.weathercheck2000.ui.home
 
+import android.graphics.Color.alpha
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,7 +45,17 @@ fun HomeScreen(
             .fillMaxWidth()
     ) {
 
+
+
         Text(
+            modifier = Modifier
+                .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
+                .background(
+                    color = MaterialTheme.colorScheme.primary, //.copy(alpha = 0.39f)
+                    //shape = RoundedCornerShape(25.dp)
+                )
+
+                .padding(horizontal = 25.dp),
             text = stringResource(R.string.title_home),
             style = MaterialTheme.typography.headlineLarge
         )
