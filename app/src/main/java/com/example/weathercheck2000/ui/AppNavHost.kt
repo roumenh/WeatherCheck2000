@@ -75,11 +75,13 @@ fun AppNavHost(
 
             val viewModel: CityDetailViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsState()
+            val allCities by viewModel.allCities.collectAsState()
 
             CityDetailScreen(
                 uiState = uiState,
-                cityId = cityId,
-                fetchData = { cityId?.let { viewModel.fetchData(it) } }
+                initialCityId = cityId,
+                listOfAllCities = allCities,
+                fetchDataForCityId = { viewModel.fetchWeatherDataForCity(it) }
             )
         }
     }
