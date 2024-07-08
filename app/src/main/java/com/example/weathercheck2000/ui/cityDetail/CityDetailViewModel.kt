@@ -67,6 +67,7 @@ class CityDetailViewModel(
 
     fun fetchWeatherDataForCity(id: Int) {
 
+        Log.e("TAG", "Fetching data for city id $id")
         viewModelScope.launch {
             citiesRepository.getCity(id).flowOn(Dispatchers.IO)
                 .catch {
@@ -83,7 +84,7 @@ class CityDetailViewModel(
                             .map { Result.success(it) }
                             .catch { emit(Result.failure(it)) },
                     ) { forecast, currentWeather ->
-                        Log.e("TAG", "Log 3")
+
                         _uiState.value = CityDetailUiState.Success(
                             cityName = it.name,
                             forecast = forecast.getOrNull(),

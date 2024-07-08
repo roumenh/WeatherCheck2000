@@ -77,12 +77,14 @@ fun AppNavHost(
             val uiState by viewModel.uiState.collectAsState()
             val allCities by viewModel.allCities.collectAsState()
 
-            CityDetailScreen(
-                uiState = uiState,
-                initialCityId = cityId,
-                listOfAllCities = allCities,
-                fetchDataForCityId = { viewModel.fetchWeatherDataForCity(it) }
-            )
+            if (cityId != null) {
+                CityDetailScreen(
+                    uiState = uiState,
+                    initialCityId = cityId,
+                    listOfAllCities = allCities,
+                    fetchDataForCityId = { viewModel.fetchWeatherDataForCity(it) }
+                )
+            }
         }
     }
 }

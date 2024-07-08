@@ -26,6 +26,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,7 +59,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CityDetailScreen(
     uiState: CityDetailUiState,
-    initialCityId: Int?,
+    initialCityId: Int,
     listOfAllCities: List<City>,
     fetchDataForCityId: (Int) -> Unit,
 ) {
@@ -67,213 +71,195 @@ fun CityDetailScreen(
         containerColor = Color.Transparent,
     ) { padding ->
 
-        val pagerState = rememberPagerState(pageCount = {
-            listOfAllCities.size
-        })
+        val selectedCityId by remember { mutableIntStateOf(initialCityId-1) }
 
-        val coroutineScope = rememberCoroutineScope()
-
-        HorizontalPager(
-            userScrollEnabled = false, //todo implement better loading and then nicer scroll
-            state = pagerState
-        ) { page ->
-
-            LaunchedEffect(page) {
-                fetchDataForCityId(listOfAllCities[page].id)
-            }
-
-            Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                if (initialCityId == null) {
-                    Text("Loading or error")
-                } else {
-
-                    if (uiState is CityDetailUiState.Loading) {
-                        Text("Loading")
-                    } else if (uiState is CityDetailUiState.Error) {
-                        Text("Error")
-                    } else {
-
-                        val successState = uiState as CityDetailUiState.Success
-
-                        Row(
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .align(Alignment.CenterHorizontally),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-
-                            Image(
-                                modifier = Modifier
-                                    .clickable {
-                                    coroutineScope.launch {
-                                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                                    }
-                                },
-                                painter = painterResource(R.drawable.ic_arrow_left),
-                                contentDescription = "Previous"
-                            )
-
-                            Text(
-                                modifier = Modifier
-                                    .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
-                                    .weight(1f)
-                                    .background(color = MaterialTheme.colorScheme.primary)
-                                    .padding(horizontal = 25.dp),
-                                text = successState.cityName,
-                                style = MaterialTheme.typography.headlineLarge,
-                                textAlign = TextAlign.Center
-                            )
-
-                            Image(
-                                modifier = Modifier.clickable  {
-                                    coroutineScope.launch {
-                                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                                    }
-                                },
-                                painter = painterResource(R.drawable.ic_arrow_right),
-                                contentDescription = "Next"
-                            )
-                        }
-
-                        //Current weather
-                        successState.current?.let {
-
-                            Box {
-                                val colorStops = arrayOf(
-                                    0.0f to Color.Transparent,
-                                    0.3f to MaterialTheme.colorScheme.background,
-                                    0.7f to MaterialTheme.colorScheme.background,
-                                    1.0f to Color.Transparent,
-                                )
-
-                                //Robin image
-                                Image(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(Brush.horizontalGradient(colorStops = colorStops))
-                                        .graphicsLayer { alpha = 0.99f }
-                                        .drawWithContent {
-                                            drawContent()
-                                            drawRect(
-                                                brush = Brush.verticalGradient(colorStops = colorStops),
-                                                blendMode = BlendMode.DstIn
-                                            )
-                                        },
-                                    contentScale = ContentScale.Crop,
-                                    painter = painterResource(R.drawable.img_placeholder),
-                                    contentDescription = "TODO"
-                                )
-
-                                Column(
-                                    modifier = Modifier
-                                        .align(Alignment.TopStart)
-                                        .padding(start = 24.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-
-                                    Text(
-                                        text = stringResource(R.string.celsius, it.temperature.toString()),
-                                        style = MaterialTheme.typography.headlineMedium
-                                    )
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    Image(
-                                        modifier = Modifier
-                                            .size(80.dp),
-                                        painter = painterResource(id = it.weatherCode!!.imageId),
-                                        contentDescription = it.weatherCode.description,
-                                    )
-                                }
-
-
-
-                            }
-
-
-
-                            Spacer(Modifier.height(16.dp))
-
-                            Row() {
-                                Icon(
-                                    painter = painterResource(R.drawable.air_24px),
-                                    contentDescription = stringResource(id = R.string.current_temperature)
-                                )
-                                Text(
-                                    stringResource(
-                                        R.string.kilometers_per_hour,
-                                        it.windSpeed.toString()
-                                    )
-                                )
-                            }
-
-                            Image(
-                                modifier = Modifier
-                                    .size(64.dp)
-                                    .rotate(it.windDirection.toFloat()),
-                                painter = painterResource(id = R.drawable.arrow),
-                                contentDescription = stringResource(
-                                    R.string.kilometers_per_hour,
-                                    it.windSpeed.toString()
-                                ),
-                            )
-
-                        }
-
-
-                        //Todays forecast
-                        successState.forecast?.let {
-
-                            Text(
-                                modifier = Modifier.padding(top = 16.dp),
-                                text = stringResource(R.string.todays_forecast),
-                                style = MaterialTheme.typography.headlineSmall
-                            )
-
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                            ) {
-                                Text(stringResource(R.string.minimum_temperature))
-                                Spacer(Modifier.weight(1f))
-                                Text(
-                                    stringResource(
-                                        R.string.celsius,
-                                        it.todayMinTemperature.toString()
-                                    )
-                                )
-                            }
-
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                            ) {
-                                Text(stringResource(R.string.maximum_temperature))
-                                Spacer(Modifier.weight(1f))
-                                Text(
-                                    stringResource(
-                                        R.string.celsius,
-                                        it.todayMaxTemperature.toString()
-                                    )
-                                )
-                            }
-
-                        }
-
-
-                    }
-                }
+        if (listOfAllCities.isNotEmpty()) {
+            LaunchedEffect(selectedCityId) {
+                fetchDataForCityId(listOfAllCities[selectedCityId].id)
             }
         }
+
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            when (uiState) {
+                is CityDetailUiState.Loading -> {
+                    Text("Loading")
+                }
+
+                is CityDetailUiState.Error -> {
+                    Text("Error")
+                }
+
+                else -> {
+
+                    val successState = uiState as CityDetailUiState.Success
+
+                    Row(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.CenterHorizontally),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Image(
+                            modifier = Modifier
+                                .clickable { },
+                            painter = painterResource(R.drawable.ic_arrow_left),
+                            contentDescription = "Previous"
+                        )
+
+                        Text(
+                            modifier = Modifier
+                                .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
+                                .weight(1f)
+                                .background(color = MaterialTheme.colorScheme.primary)
+                                .padding(horizontal = 25.dp),
+                            text = successState.cityName,
+                            style = MaterialTheme.typography.headlineMedium,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Image(
+                            modifier = Modifier.clickable { },
+                            painter = painterResource(R.drawable.ic_arrow_right),
+                            contentDescription = "Next"
+                        )
+                    }
+
+                    //Current weather
+                    successState.current?.let {
+
+                        Box {
+                            val colorStops = arrayOf(
+                                0.0f to Color.Transparent,
+                                0.3f to MaterialTheme.colorScheme.background,
+                                0.7f to MaterialTheme.colorScheme.background,
+                                1.0f to Color.Transparent,
+                            )
+
+                            //Robin image
+                            Image(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(Brush.horizontalGradient(colorStops = colorStops))
+                                    .graphicsLayer { alpha = 0.99f }
+                                    .drawWithContent {
+                                        drawContent()
+                                        drawRect(
+                                            brush = Brush.verticalGradient(colorStops = colorStops),
+                                            blendMode = BlendMode.DstIn
+                                        )
+                                    },
+                                contentScale = ContentScale.Crop,
+                                painter = painterResource(R.drawable.img_placeholder),
+                                contentDescription = "TODO"
+                            )
+
+                            Column(
+                                modifier = Modifier
+                                    .align(Alignment.TopStart)
+                                    .padding(start = 24.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                Text(
+                                    text = stringResource(
+                                        R.string.celsius,
+                                        it.temperature.toString()
+                                    ),
+                                    style = MaterialTheme.typography.headlineLarge
+                                )
+
+                                Image(
+                                    modifier = Modifier
+                                        .size(80.dp),
+                                    painter = painterResource(id = it.weatherCode!!.imageId),
+                                    contentDescription = it.weatherCode.description,
+                                )
+                            }
+
+
+                        }
+
+                        Spacer(Modifier.height(16.dp))
+
+                        Row() {
+                            Icon(
+                                painter = painterResource(R.drawable.air_24px),
+                                contentDescription = stringResource(id = R.string.current_temperature)
+                            )
+                            Text(
+                                stringResource(
+                                    R.string.kilometers_per_hour,
+                                    it.windSpeed.toString()
+                                )
+                            )
+                        }
+
+                        Image(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .rotate(it.windDirection.toFloat()),
+                            painter = painterResource(id = R.drawable.arrow),
+                            contentDescription = stringResource(
+                                R.string.kilometers_per_hour,
+                                it.windSpeed.toString()
+                            ),
+                        )
+
+                    }
+
+
+                    //Todays forecast
+                    successState.forecast?.let {
+
+                        Text(
+                            modifier = Modifier.padding(top = 16.dp),
+                            text = stringResource(R.string.todays_forecast),
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Text(stringResource(R.string.minimum_temperature))
+                            Spacer(Modifier.weight(1f))
+                            Text(
+                                stringResource(
+                                    R.string.celsius,
+                                    it.todayMinTemperature.toString()
+                                )
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Text(stringResource(R.string.maximum_temperature))
+                            Spacer(Modifier.weight(1f))
+                            Text(
+                                stringResource(
+                                    R.string.celsius,
+                                    it.todayMaxTemperature.toString()
+                                )
+                            )
+                        }
+
+                    }
+
+
+                }
+            }
+
+        }
     }
-
-
 }
 
 
