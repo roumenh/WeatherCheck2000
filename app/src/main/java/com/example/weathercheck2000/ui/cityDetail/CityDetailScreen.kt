@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -28,9 +29,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -56,7 +62,7 @@ fun CityDetailScreen(
 
     Scaffold(
         modifier = Modifier
-            .padding(16.dp)
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize(),
         containerColor = Color.Transparent,
     ) { padding ->
@@ -97,13 +103,16 @@ fun CityDetailScreen(
                         val successState = uiState as CityDetailUiState.Success
 
                         Row(
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterHorizontally),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
 
                             Image(
-                                modifier = Modifier.clickable {
+                                modifier = Modifier
+                                    .clickable {
                                     coroutineScope.launch {
                                         pagerState.animateScrollToPage(pagerState.currentPage - 1)
                                     }
@@ -134,14 +143,30 @@ fun CityDetailScreen(
                             )
                         }
 
-                        Spacer(Modifier.height(16.dp))
-
                         //Current weather
                         successState.current?.let {
 
                             Box {
+                                val colorStops = arrayOf(
+                                    0.0f to Color.Transparent,
+                                    0.3f to MaterialTheme.colorScheme.background,
+                                    0.7f to MaterialTheme.colorScheme.background,
+                                    1.0f to Color.Transparent,
+                                )
+
+                                //Robin image
                                 Image(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(Brush.horizontalGradient(colorStops = colorStops))
+                                        .graphicsLayer { alpha = 0.99f }
+                                        .drawWithContent {
+                                            drawContent()
+                                            drawRect(
+                                                brush = Brush.verticalGradient(colorStops = colorStops),
+                                                blendMode = BlendMode.DstIn
+                                            )
+                                        },
                                     contentScale = ContentScale.Crop,
                                     painter = painterResource(R.drawable.img_placeholder),
                                     contentDescription = "TODO"
@@ -149,32 +174,28 @@ fun CityDetailScreen(
 
                                 Column(
                                     modifier = Modifier
-                                        .align(Alignment.TopEnd)
-                                        .padding(16.dp)
-                                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.8f))
-                                        .padding(16.dp),
+                                        .align(Alignment.TopStart)
+                                        .padding(start = 24.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.thermostat_24px),
-                                        contentDescription = stringResource(id = R.string.current_temperature)
-                                    )
+
                                     Text(
-                                        stringResource(
-                                            R.string.celsius,
-                                            it.temperature.toString()
-                                        )
+                                        text = stringResource(R.string.celsius, it.temperature.toString()),
+                                        style = MaterialTheme.typography.headlineMedium
                                     )
 
-
+                                    Spacer(modifier = Modifier.height(12.dp))
 
                                     Image(
                                         modifier = Modifier
-                                            .size(64.dp),
+                                            .size(80.dp),
                                         painter = painterResource(id = it.weatherCode!!.imageId),
                                         contentDescription = it.weatherCode.description,
                                     )
                                 }
+
+
+
                             }
 
 
