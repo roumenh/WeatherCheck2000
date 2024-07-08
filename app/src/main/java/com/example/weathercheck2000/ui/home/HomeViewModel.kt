@@ -59,7 +59,7 @@ class HomeViewModel(
                         Log.d("HomeViewModel", "Adding city to list ${city.name}")
                     }.catch {
                         listOfCitiesWithTemperatures.add(
-                            HomeSingleCityState(
+                            HomeSingleCityState( //TODO individual error state for a city + UI
                                 city = city,
                                 currentTemperature = null,
                                 forecastTemperatureLow = null,
