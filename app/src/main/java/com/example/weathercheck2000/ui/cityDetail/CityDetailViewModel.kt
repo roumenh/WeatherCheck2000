@@ -8,7 +8,9 @@ import com.example.weathercheck2000.data.model.WeatherForecast
 import com.example.weathercheck2000.data.repository.CitiesRepository
 import com.example.weathercheck2000.data.repository.MeteoInfoRepository
 import com.example.weathercheck2000.database.cities.City
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +22,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
@@ -63,16 +66,21 @@ class CityDetailViewModel(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun fetchWeatherDataForCity(id: Int) {
+    fun fetchWeatherDataForCity(id: Int){
         viewModelScope.launch {
 
             Log.e("TAG","Log 1 " + id.toString())
 
-            uiState = citiesRepository.getCity(id).flatMapMerge {
-                flow {
+            citiesRepository.getCity(id).flowOn(Dispatchers.IO)
+                .catch {
+                    Log.e("CityDetailViewModel", "Error fetching data", it)
+                    _uiState.value = CityDetailUiState.Error
+                }
+                .collect { it ->
+
                     Log.e("TAG","Log 2")
-                    emit(CityDetailUiState.Loading)
-                    emitAll(
+                    _uiState.value = CityDetailUiState.Loading
+                    //emitAll(
                         combine(
                             meteoInfoRepository.getForecastForCity(it.lat, it.lon)
                                 .map { Result.success(it) }
@@ -81,24 +89,22 @@ class CityDetailViewModel(
                                 .map { Result.success(it) }
                                 .catch { emit(Result.failure(it)) },
                         ) { forecast, currentWeather ->
-                            CityDetailUiState.Success(
+                            Log.e("TAG","Log 3")
+                            _uiState.value = CityDetailUiState.Success(
                                 cityName = it.name,
                                 forecast = forecast.getOrNull(),
                                 current = currentWeather.getOrNull(),
                             )
-                        }
-                    )
+                        }.collect{}
+                 //   )
                 }
-            }.catch {
-                Log.e("CityDetailViewModel", "Error fetching data", it)
-                emit(CityDetailUiState.Error)
-            }.stateIn(
+            }/*.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = CityDetailUiState.Loading
-            )
+            )*/
         }
-    }
+
 
 }
 
