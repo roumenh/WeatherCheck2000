@@ -13,14 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -69,11 +63,9 @@ fun HomeScreen(
 
             Text(
                 modifier = Modifier
-
                     .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
                     .background(
-                        color = MaterialTheme.colorScheme.primary, //.copy(alpha = 0.39f)
-                        //shape = RoundedCornerShape(25.dp)
+                        color = MaterialTheme.colorScheme.primary,
                     )
 
                     .padding(horizontal = 15.dp),
@@ -109,7 +101,7 @@ fun HomeScreen(
                     ),
                     shape = RoundedCornerShape(48.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                    onClick = { onCityClicked(cityTemp.first.id) }
+                    onClick = { onCityClicked(cityTemp.city.id) }
                 ) {
 
                     Column(
@@ -120,11 +112,14 @@ fun HomeScreen(
 
                         ) {
                         Text(
-                            text = cityTemp.first.name,
+                            text = cityTemp.city.name,
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            text = cityTemp.second.toString() + " °C"
+                            text = cityTemp.currentTemperature.toString() + " °C"
+                        )
+                        Text(
+                            text = cityTemp.forecastTemperatureLow.toString() + "/" + cityTemp.forecastTemperatureHigh.toString() + " °C"
                         )
                     }
                 }
@@ -145,10 +140,18 @@ fun HomeScreenPreview() {
         HomeScreen(
             uiState = HomeUiState(
                 mutableListOf(
-                    City(0, "Oslo", "1", "2") to 10.0,
-                    City(0, "Loos", "1", "2") to 10.0,
-                    City(0, "Náměšť nad Oslavou", "1", "2") to 10.0,
-                    City(0, "Oslo", "1", "2") to 10.0,
+                    HomeSingleCityState(
+                        city = City(0, "Oslo", "1", "2"),
+                        currentTemperature = 10.0,
+                        forecastTemperatureLow = 10.0,
+                        forecastTemperatureHigh = 10.0
+                    ),
+                    HomeSingleCityState(
+                        city = City(0, "Náměšť nad oslavou", "1", "2"),
+                        currentTemperature = 10.0,
+                        forecastTemperatureLow = 10.0,
+                        forecastTemperatureHigh = 10.0
+                    ),
                 )
             ),
             onCityClicked = {},

@@ -95,7 +95,7 @@ class CityDetailViewModel(
                                 current = currentWeather.getOrNull(),
                             )
                         }
-                    }.collect {}
+                    }.catch { _uiState.value = CityDetailUiState.Error }.collect {}
                 }
         }
     }
