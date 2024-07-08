@@ -59,14 +59,13 @@ fun HomeScreen(
 
         Row(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
             Image(
                 modifier = Modifier
-                    .size(50.dp)
-
+                    .size(40.dp)
                     .clickable { onAddCityClicked() },
                 painter = painterResource(id = R.drawable.ic_plus),
                 contentDescription = stringResource(R.string.add)
@@ -81,12 +80,12 @@ fun HomeScreen(
 
                     .padding(horizontal = 15.dp),
                 text = getCurrentDateInCustomFormat(),
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineMedium
             )
 
             Image(
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(80.dp)
                     .clickable { /* todo */ },
                 painter = painterResource(id = R.drawable.ic_gallery),
                 contentDescription = stringResource(R.string.gallery)
