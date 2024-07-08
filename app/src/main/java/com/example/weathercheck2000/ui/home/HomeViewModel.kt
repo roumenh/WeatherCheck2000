@@ -54,6 +54,9 @@ class HomeViewModel(
                 _uiState.value =
                     HomeUiState(citiesAndCurrentTemperatures = listOfCitiesWithTemperatures)
 
+
+                //TODO introduce some loading state!
+
             }
         }
 

@@ -1,5 +1,6 @@
 package com.example.weathercheck2000.ui.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,9 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.weathercheck2000.R
 import com.example.weathercheck2000.data.utils.getCurrentDateInCustomFormat
 import com.example.weathercheck2000.database.cities.City
 import com.example.weathercheck2000.ui.theme.RobinTheme
@@ -42,7 +47,7 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 22.dp)
             .fillMaxWidth()
     ) {
 
@@ -53,29 +58,35 @@ fun HomeScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Icon(
-                modifier = Modifier.clickable { onAddCityClicked() },
-                imageVector = Icons.Default.Add,
-                contentDescription = "Add"
+            Image(
+                modifier = Modifier
+                    .size(50.dp)
+
+                    .clickable { onAddCityClicked() },
+                painter = painterResource(id = R.drawable.ic_plus),
+                contentDescription = stringResource(R.string.add)
             )
 
             Text(
                 modifier = Modifier
+
                     .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
                     .background(
                         color = MaterialTheme.colorScheme.primary, //.copy(alpha = 0.39f)
                         //shape = RoundedCornerShape(25.dp)
                     )
 
-                    .padding(horizontal = 25.dp),
+                    .padding(horizontal = 15.dp),
                 text = getCurrentDateInCustomFormat(),
                 style = MaterialTheme.typography.headlineLarge
             )
 
-            Icon(
-                modifier = Modifier.clickable {  }, //TODO
-                imageVector = Icons.Default.Face,
-                contentDescription = "Add"
+            Image(
+                modifier = Modifier
+                    .size(60.dp)
+                    .clickable { /* todo */ },
+                painter = painterResource(id = R.drawable.ic_gallery),
+                contentDescription = stringResource(R.string.gallery)
             )
 
 

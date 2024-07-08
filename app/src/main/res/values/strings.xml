@@ -16,6 +16,8 @@
     <string name="fragment_city_detail">City weather detail</string>
     <string name="minimum_temperature">Minimal temperature</string>
     <string name="maximum_temperature">Maximal temperature</string>
+    <string name="add">Add</string>
+    <string name="gallery">Gallery</string>
 
 
 </resources>

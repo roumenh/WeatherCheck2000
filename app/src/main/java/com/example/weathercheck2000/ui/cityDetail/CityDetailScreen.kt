@@ -19,15 +19,13 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -45,6 +43,7 @@ import com.example.weathercheck2000.data.model.WeatherCode
 import com.example.weathercheck2000.data.model.WeatherForecast
 import com.example.weathercheck2000.database.cities.City
 import com.example.weathercheck2000.ui.theme.RobinTheme
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,8 +53,6 @@ fun CityDetailScreen(
     listOfAllCities: List<City>,
     fetchDataForCityId: (Int) -> Unit,
 ) {
-
-
 
     Scaffold(
         modifier = Modifier
@@ -68,7 +65,12 @@ fun CityDetailScreen(
             listOfAllCities.size
         })
 
-        HorizontalPager(state = pagerState) { page ->
+        val coroutineScope = rememberCoroutineScope()
+
+        HorizontalPager(
+            userScrollEnabled = false, //todo implement better loading and then nicer scroll
+            state = pagerState
+        ) { page ->
 
             LaunchedEffect(page) {
                 fetchDataForCityId(listOfAllCities[page].id)
@@ -100,31 +102,35 @@ fun CityDetailScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
 
-                            Icon(
-                                modifier = Modifier.clickable { },
-                                imageVector = Icons.Default.KeyboardArrowLeft,
-                                contentDescription = "Add"
+                            Image(
+                                modifier = Modifier.clickable {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                                    }
+                                },
+                                painter = painterResource(R.drawable.ic_arrow_left),
+                                contentDescription = "Previous"
                             )
 
                             Text(
                                 modifier = Modifier
                                     .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
                                     .weight(1f)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.primary, //.copy(alpha = 0.39f)
-                                        //shape = RoundedCornerShape(25.dp)
-                                    )
-
+                                    .background(color = MaterialTheme.colorScheme.primary)
                                     .padding(horizontal = 25.dp),
                                 text = successState.cityName,
                                 style = MaterialTheme.typography.headlineLarge,
                                 textAlign = TextAlign.Center
                             )
 
-                            Icon(
-                                modifier = Modifier.clickable { }, //TODO
-                                imageVector = Icons.Default.KeyboardArrowRight,
-                                contentDescription = "Add"
+                            Image(
+                                modifier = Modifier.clickable  {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                    }
+                                },
+                                painter = painterResource(R.drawable.ic_arrow_right),
+                                contentDescription = "Next"
                             )
                         }
 
