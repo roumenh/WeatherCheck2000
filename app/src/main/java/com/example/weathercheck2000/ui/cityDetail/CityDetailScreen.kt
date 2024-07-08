@@ -93,7 +93,11 @@ fun CityDetailScreen(
                 }
 
                 is CityDetailUiState.Error -> {
-                    Text("Error")
+                    Text(
+                        modifier = Modifier.padding(20.dp).align(Alignment.CenterHorizontally),
+                        text = "Something \uD83D\uDCA9 is wrong",
+                        style = MaterialTheme.typography.headlineLarge,
+                    )
                 }
 
                 else -> {

@@ -22,10 +22,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weathercheck2000.R
@@ -113,20 +118,45 @@ fun HomeScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(22.dp),
+                            .padding(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
 
                         ) {
                         Text(
+                            modifier = Modifier.padding(vertical = 4.dp),
                             text = cityTemp.city.name,
                             textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.W500,
                         )
-                        Text(
-                            text = cityTemp.currentTemperature.toString() + " °C"
-                        )
-                        Text(
-                            text = cityTemp.forecastTemperatureLow.toString() + "/" + cityTemp.forecastTemperatureHigh.toString() + " °C"
-                        )
+                        if (cityTemp.currentTemperature == null) {
+                            //Poo.. something is wrong!💩
+                            Text(
+                                text = "\uD83D\uDCA9",
+                                style = MaterialTheme.typography.headlineLarge,
+                            )
+                        } else {
+                            Text(
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                text = cityTemp.currentTemperature?.toInt().toString() + " °C",
+                                fontWeight = FontWeight.W500,
+                            )
+                            val minAndMax = buildAnnotatedString {
+                                val lowTemp = cityTemp.forecastTemperatureLow?.toInt().toString()
+                                val highTemp = cityTemp.forecastTemperatureHigh?.toInt().toString()
+                                withStyle(style = SpanStyle(color = Color(0xFF0000DD))) {
+                                    append("$lowTemp°C")
+                                }
+                                append("/")
+                                withStyle(style = SpanStyle(color = Color(0xFFB0581D))) {
+                                    append("$highTemp°C")
+                                }
+                            }
+                            Text(
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                text = minAndMax,
+                                fontWeight = FontWeight.W500,
+                            )
+                        }
                     }
                 }
             }
