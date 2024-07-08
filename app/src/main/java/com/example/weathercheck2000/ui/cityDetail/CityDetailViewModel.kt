@@ -31,9 +31,9 @@ import kotlinx.coroutines.launch
 
 sealed class CityDetailUiState {
 
-    object Loading : CityDetailUiState()
+    data object Loading : CityDetailUiState()
 
-    object Error : CityDetailUiState()
+    data object Error : CityDetailUiState()
 
     data class Success(
         val cityName: String,
@@ -85,11 +85,16 @@ class CityDetailViewModel(
                             .catch { emit(Result.failure(it)) },
                     ) { forecast, currentWeather ->
 
-                        _uiState.value = CityDetailUiState.Success(
-                            cityName = it.name,
-                            forecast = forecast.getOrNull(),
-                            current = currentWeather.getOrNull(),
-                        )
+                        if (forecast.isFailure && currentWeather.isFailure) {
+                            //biga problema, network down?
+                            _uiState.value = CityDetailUiState.Error
+                        } else {
+                            _uiState.value = CityDetailUiState.Success(
+                                cityName = it.name,
+                                forecast = forecast.getOrNull(),
+                                current = currentWeather.getOrNull(),
+                            )
+                        }
                     }.collect {}
                 }
         }
