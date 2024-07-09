@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -60,6 +61,19 @@ fun AddCityScreen(
             Button(onClick = { onAddCity(name, lat, lon) }) {
                 Text("Add city")
             }
+
+            HorizontalDivider()
+
+            Button(onClick = { onAddCity("Loos", "61.7365133", "15.1692092") }) {
+                Text ("Add Loos")
+            }
+            Button(onClick = { onAddCity("Brno", "49.2002211", "16.6078411") }) {
+                Text ("Add Brno")
+            }
+            Button(onClick = { onAddCity("Alicante", "38.3436364", "0.4881708") }) {
+                Text ("Add Alicante")
+            }
+
         }
     }
 

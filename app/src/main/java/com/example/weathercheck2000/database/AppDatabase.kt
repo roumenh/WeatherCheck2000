@@ -6,8 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.weathercheck2000.database.cities.CitiesDao
 import com.example.weathercheck2000.database.cities.City
+import com.example.weathercheck2000.database.collectibles.Collectible
 
-@Database(entities = [City::class], version = 3)
+@Database(entities = [City::class, Collectible::class], version = 3)
 abstract class AppDatabase: RoomDatabase(){
 
     abstract fun citiesDao(): CitiesDao
@@ -25,7 +26,7 @@ abstract class AppDatabase: RoomDatabase(){
                     AppDatabase::class.java,
                     "app_database")
                     .fallbackToDestructiveMigration()
-                    //.createFromAsset("database/cities.db")
+                    .createFromAsset("database/cities.db")
                     .build()
                 INSTANCE = instance
 

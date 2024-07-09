@@ -53,9 +53,7 @@ import com.example.weathercheck2000.data.model.WeatherCode
 import com.example.weathercheck2000.data.model.WeatherForecast
 import com.example.weathercheck2000.database.cities.City
 import com.example.weathercheck2000.ui.theme.RobinTheme
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CityDetailScreen(
     uiState: CityDetailUiState,
@@ -161,7 +159,8 @@ fun CityDetailScreen(
                                             blendMode = BlendMode.DstIn
                                         )
                                     },
-                                contentScale = ContentScale.Crop,
+                                contentScale = ContentScale.FillWidth,
+                              //  painter = painterResource(R.drawable.rimg_0_clear_sky),
                                 painter = painterResource(robinImageResolver(currentWeather = it)),
                                 contentDescription = "TODO"
                             )
