@@ -162,7 +162,7 @@ fun CityDetailScreen(
                                         )
                                     },
                                 contentScale = ContentScale.Crop,
-                                painter = painterResource(R.drawable.img_placeholder),
+                                painter = painterResource(robinImageResolver(currentWeather = it)),
                                 contentDescription = "TODO"
                             )
 
