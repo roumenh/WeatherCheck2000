@@ -42,6 +42,7 @@ import com.example.weathercheck2000.ui.theme.RobinTheme
 fun HomeScreen(
     uiState: HomeUiState,
     onCityClicked: (Int) -> Unit,
+    onOpenGalleryClicked: () -> Unit,
     onAddCityClicked: () -> Unit,
 ) {
 
@@ -77,7 +78,6 @@ fun HomeScreen(
                     .background(
                         color = MaterialTheme.colorScheme.primary,
                     )
-
                     .padding(horizontal = 15.dp),
                 text = getCurrentDateInCustomFormat(),
                 style = MaterialTheme.typography.headlineMedium
@@ -86,7 +86,7 @@ fun HomeScreen(
             Image(
                 modifier = Modifier
                     .size(80.dp)
-                    .clickable { /* todo */ },
+                    .clickable { onOpenGalleryClicked() },
                 painter = painterResource(id = R.drawable.ic_gallery),
                 contentDescription = stringResource(R.string.gallery)
             )
@@ -190,6 +190,7 @@ fun HomeScreenPreview() {
                 )
             ),
             onCityClicked = {},
+            onOpenGalleryClicked = {},
             onAddCityClicked = {},
         )
     }

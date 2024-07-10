@@ -12,6 +12,9 @@ interface CollectiblesDao{
     @Query("SELECT * FROM collectible")
     fun getAll(): Flow<MutableList<Collectible>>
 
+    @Query("SELECT EXISTS(SELECT * FROM collectible WHERE code = :code)")
+    fun collectibleExists(code: String): Boolean
+
     @Insert//(onConflict = OnConflictStrategy.IGNORE)
     fun insertCollectible(collectible: Collectible)
 
