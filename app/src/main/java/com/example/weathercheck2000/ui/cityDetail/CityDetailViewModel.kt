@@ -10,6 +10,7 @@ import com.example.weathercheck2000.data.repository.MeteoInfoRepository
 import com.example.weathercheck2000.database.cities.City
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -25,6 +27,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -36,7 +39,7 @@ sealed class CityDetailUiState {
     data object Error : CityDetailUiState()
 
     data class Success(
-        val cityName: String,
+        val city: City,
         val forecast: WeatherForecast? = null,
         val current: CurrentWeather? = null,
     ) : CityDetailUiState()
@@ -65,16 +68,19 @@ class CityDetailViewModel(
         }
     }
 
+    @OptIn(FlowPreview::class)
     fun fetchWeatherDataForCity(id: Int) {
 
-        Log.e("TAG", "Fetching data for city id $id")
+        Log.d("TAG", "Fetching data for city id $id")
         viewModelScope.launch {
-            citiesRepository.getCity(id).flowOn(Dispatchers.IO)
+            citiesRepository.getCity(id).flowOn(Dispatchers.IO).debounce(2000)
                 .catch {
                     Log.e("CityDetailViewModel", "Error fetching data", it)
                     _uiState.value = CityDetailUiState.Error
                 }
+                .mapNotNull { it }
                 .collect { it ->
+                    Log.d("CityDetailViewModel", "Fetching $it")
                     _uiState.value = CityDetailUiState.Loading
                     combine(
                         meteoInfoRepository.getForecastForCity(it.lat, it.lon)
@@ -90,7 +96,7 @@ class CityDetailViewModel(
                             _uiState.value = CityDetailUiState.Error
                         } else {
                             _uiState.value = CityDetailUiState.Success(
-                                cityName = it.name,
+                                city = it,
                                 forecast = forecast.getOrNull(),
                                 current = currentWeather.getOrNull(),
                             )
@@ -98,6 +104,10 @@ class CityDetailViewModel(
                     }.catch { _uiState.value = CityDetailUiState.Error }.collect {}
                 }
         }
+    }
+
+    fun deleteCity(city: City){
+        citiesRepository.delete(city)
     }
 
 }

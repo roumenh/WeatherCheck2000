@@ -86,6 +86,11 @@ fun AppNavHost(
                     uiState = uiState,
                     initialCityId = cityId,
                     listOfAllCities = allCities,
+                    onDeleteCityClicked = {
+                        viewModel.deleteCity(it)
+                        //Eventually here can be some result check
+                        navController.popBackStack()
+                    },
                     fetchDataForCityId = { viewModel.fetchWeatherDataForCity(it) }
                 )
             }
@@ -99,9 +104,9 @@ fun AppNavHost(
             val allCities by viewModel.allCities.collectAsState()*/
 
 
-                GalleryScreen(
-                    onBackPressed = { navController.popBackStack() }
-                )
+            GalleryScreen(
+                onBackPressed = { navController.popBackStack() }
+            )
 
         }
     }

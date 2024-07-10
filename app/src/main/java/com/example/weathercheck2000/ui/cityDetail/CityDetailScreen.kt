@@ -20,6 +20,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -60,6 +61,7 @@ fun CityDetailScreen(
     initialCityId: Int,
     listOfAllCities: List<City>,
     fetchDataForCityId: (Int) -> Unit,
+    onDeleteCityClicked: (City) -> Unit,
 ) {
 
     Scaffold(
@@ -73,7 +75,7 @@ fun CityDetailScreen(
 
         if (listOfAllCities.isNotEmpty()) {
             LaunchedEffect(selectedCityId) {
-                fetchDataForCityId(listOfAllCities[selectedCityId].id)
+                fetchDataForCityId(initialCityId)
             }
         }
 
@@ -92,7 +94,9 @@ fun CityDetailScreen(
 
                 is CityDetailUiState.Error -> {
                     Text(
-                        modifier = Modifier.padding(20.dp).align(Alignment.CenterHorizontally),
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .align(Alignment.CenterHorizontally),
                         text = "Something \uD83D\uDCA9 is wrong",
                         style = MaterialTheme.typography.headlineLarge,
                     )
@@ -123,7 +127,7 @@ fun CityDetailScreen(
                                 .weight(1f)
                                 .background(color = MaterialTheme.colorScheme.primary)
                                 .padding(horizontal = 25.dp),
-                            text = successState.cityName,
+                            text = successState.city.name,
                             style = MaterialTheme.typography.headlineMedium,
                             textAlign = TextAlign.Center
                         )
@@ -257,6 +261,14 @@ fun CityDetailScreen(
 
                     }
 
+                    Spacer(Modifier.height(32.dp))
+
+                    Button(
+                        onClick = { onDeleteCityClicked(successState.city) }
+                    ) {
+                        Text("Delete city")
+                    }
+
 
                 }
             }
@@ -266,14 +278,14 @@ fun CityDetailScreen(
 }
 
 
-@Preview
+@Preview(heightDp = 2000)
 @Composable
 fun CityDetailScreenPreview() {
     RobinTheme {
         CityDetailScreen(
             uiState =
             CityDetailUiState.Success(
-                cityName = "Náměšť nad Oslavou",
+                city = City(1,"Náměšť nad Oslavou","0","0"),
                 forecast = WeatherForecast(
                     todayMinTemperature = 5.0,
                     todayMaxTemperature = 35.2
@@ -296,6 +308,7 @@ fun CityDetailScreenPreview() {
                 )
             ),
             initialCityId = 2,
+            onDeleteCityClicked = {},
             fetchDataForCityId = {},
         )
     }
