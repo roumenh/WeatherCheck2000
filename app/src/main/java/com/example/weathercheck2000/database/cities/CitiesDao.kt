@@ -21,4 +21,7 @@ interface CitiesDao{
     @Delete
     fun deleteCity(city: City)
 
+    @Query("DELETE FROM city WHERE id = :cityId")
+    fun deleteCityById(cityId: Int)
+
 }

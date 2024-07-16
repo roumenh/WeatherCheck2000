@@ -73,7 +73,9 @@ class CityDetailViewModel(
 
         Log.d("TAG", "Fetching data for city id $id")
         viewModelScope.launch {
-            citiesRepository.getCity(id).flowOn(Dispatchers.IO).debounce(2000)
+            citiesRepository.getCity(id)
+                .flowOn(Dispatchers.IO)
+                .debounce(200)
                 .catch {
                     Log.e("CityDetailViewModel", "Error fetching data", it)
                     _uiState.value = CityDetailUiState.Error
@@ -106,8 +108,8 @@ class CityDetailViewModel(
         }
     }
 
-    fun deleteCity(city: City){
-        citiesRepository.delete(city)
+    fun deleteCity(id: Int){
+        citiesRepository.deleteById(id)
     }
 
 }

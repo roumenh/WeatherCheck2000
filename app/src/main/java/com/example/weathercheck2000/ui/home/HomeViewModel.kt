@@ -43,6 +43,8 @@ class HomeViewModel(
         viewModelScope.launch {
             repository.allCities.collect { result ->
 
+                listOfCitiesWithTemperatures.clear()
+
                 result.forEach { city ->
                     combine(
                         meteoInfoRepository.getCurrentWeatherForCity(city.lat, city.lon),

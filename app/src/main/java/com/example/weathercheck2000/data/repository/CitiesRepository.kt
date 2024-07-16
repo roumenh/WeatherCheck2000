@@ -16,6 +16,7 @@ interface CitiesRepository {
     fun getCity(id: Int): Flow<City>
     fun insert(city: City)
     fun delete(city: City)
+    fun deleteById(id: Int)
 }
 
 class CitiesRepositoryImpl(private val citiesDao: CitiesDao) : CitiesRepository {
@@ -34,6 +35,12 @@ class CitiesRepositoryImpl(private val citiesDao: CitiesDao) : CitiesRepository 
     override fun delete(city: City) {
         CoroutineScope(Dispatchers.IO).launch {
             citiesDao.deleteCity(city)
+        }
+    }
+
+    override fun deleteById(id: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            citiesDao.deleteCityById(id)
         }
     }
 

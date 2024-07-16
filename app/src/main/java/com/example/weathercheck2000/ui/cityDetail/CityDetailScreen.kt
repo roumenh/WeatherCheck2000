@@ -61,7 +61,7 @@ fun CityDetailScreen(
     initialCityId: Int,
     listOfAllCities: List<City>,
     fetchDataForCityId: (Int) -> Unit,
-    onDeleteCityClicked: (City) -> Unit,
+    onDeleteCityClicked: (Int) -> Unit,
 ) {
 
     Scaffold(
@@ -71,7 +71,7 @@ fun CityDetailScreen(
         containerColor = Color.Transparent,
     ) { padding ->
 
-        val selectedCityId by remember { mutableIntStateOf(initialCityId-1) }
+        val selectedCityId by remember { mutableIntStateOf(initialCityId - 1) }
 
         if (listOfAllCities.isNotEmpty()) {
             LaunchedEffect(selectedCityId) {
@@ -115,15 +115,16 @@ fun CityDetailScreen(
                     ) {
 
                         Image(
-                            modifier = Modifier
-                                .clickable { },
+                            modifier = Modifier.clickable { },
                             painter = painterResource(R.drawable.ic_arrow_left),
                             contentDescription = "Previous"
                         )
 
                         Text(
                             modifier = Modifier
-                                .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
+                                .shadow(
+                                    elevation = 4.dp, shape = RoundedCornerShape(25.dp)
+                                )
                                 .weight(1f)
                                 .background(color = MaterialTheme.colorScheme.primary)
                                 .padding(horizontal = 25.dp),
@@ -151,20 +152,19 @@ fun CityDetailScreen(
                             )
 
                             //Robin image
-                            Image(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(Brush.horizontalGradient(colorStops = colorStops))
-                                    .graphicsLayer { alpha = 0.99f }
-                                    .drawWithContent {
-                                        drawContent()
-                                        drawRect(
-                                            brush = Brush.verticalGradient(colorStops = colorStops),
-                                            blendMode = BlendMode.DstIn
-                                        )
-                                    },
+                            Image(modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Brush.horizontalGradient(colorStops = colorStops))
+                                .graphicsLayer { alpha = 0.99f }
+                                .drawWithContent {
+                                    drawContent()
+                                    drawRect(
+                                        brush = Brush.verticalGradient(colorStops = colorStops),
+                                        blendMode = BlendMode.DstIn
+                                    )
+                                },
                                 contentScale = ContentScale.FillWidth,
-                              //  painter = painterResource(R.drawable.rimg_0_clear_sky),
+                                //  painter = painterResource(R.drawable.rimg_0_clear_sky),
                                 painter = painterResource(robinImageResolver(currentWeather = it)),
                                 contentDescription = "TODO"
                             )
@@ -178,15 +178,12 @@ fun CityDetailScreen(
 
                                 Text(
                                     text = stringResource(
-                                        R.string.celsius,
-                                        it.temperature.toString()
-                                    ),
-                                    style = MaterialTheme.typography.headlineLarge
+                                        R.string.celsius, it.temperature.toString()
+                                    ), style = MaterialTheme.typography.headlineLarge
                                 )
 
                                 Image(
-                                    modifier = Modifier
-                                        .size(80.dp),
+                                    modifier = Modifier.size(80.dp),
                                     painter = painterResource(id = it.weatherCode!!.imageId),
                                     contentDescription = it.weatherCode.description,
                                 )
@@ -204,8 +201,7 @@ fun CityDetailScreen(
                             )
                             Text(
                                 stringResource(
-                                    R.string.kilometers_per_hour,
-                                    it.windSpeed.toString()
+                                    R.string.kilometers_per_hour, it.windSpeed.toString()
                                 )
                             )
                         }
@@ -216,8 +212,7 @@ fun CityDetailScreen(
                                 .rotate(it.windDirection.toFloat()),
                             painter = painterResource(id = R.drawable.arrow),
                             contentDescription = stringResource(
-                                R.string.kilometers_per_hour,
-                                it.windSpeed.toString()
+                                R.string.kilometers_per_hour, it.windSpeed.toString()
                             ),
                         )
 
@@ -240,8 +235,7 @@ fun CityDetailScreen(
                             Spacer(Modifier.weight(1f))
                             Text(
                                 stringResource(
-                                    R.string.celsius,
-                                    it.todayMinTemperature.toString()
+                                    R.string.celsius, it.todayMinTemperature.toString()
                                 )
                             )
                         }
@@ -253,24 +247,19 @@ fun CityDetailScreen(
                             Spacer(Modifier.weight(1f))
                             Text(
                                 stringResource(
-                                    R.string.celsius,
-                                    it.todayMaxTemperature.toString()
+                                    R.string.celsius, it.todayMaxTemperature.toString()
                                 )
                             )
                         }
 
                     }
 
-                    Spacer(Modifier.height(32.dp))
-
-                    Button(
-                        onClick = { onDeleteCityClicked(successState.city) }
-                    ) {
-                        Text("Delete city")
-                    }
-
-
                 }
+            }
+            Spacer(Modifier.height(32.dp))
+
+            Button(onClick = { onDeleteCityClicked(selectedCityId) }) {
+                Text("Delete city")
             }
 
         }
@@ -283,28 +272,21 @@ fun CityDetailScreen(
 fun CityDetailScreenPreview() {
     RobinTheme {
         CityDetailScreen(
-            uiState =
-            CityDetailUiState.Success(
-                city = City(1,"Náměšť nad Oslavou","0","0"),
-                forecast = WeatherForecast(
-                    todayMinTemperature = 5.0,
-                    todayMaxTemperature = 35.2
-                ),
-                current = CurrentWeather(
+            uiState = CityDetailUiState.Success(
+                city = City(1, "Náměšť nad Oslavou", "0", "0"), forecast = WeatherForecast(
+                    todayMinTemperature = 5.0, todayMaxTemperature = 35.2
+                ), current = CurrentWeather(
                     temperature = 15.7,
                     windSpeed = 178.0,
                     windDirection = 65.7,
                     weatherCode = WeatherCode(
-                        R.drawable.code2,
-                        "Clear sky"
+                        R.drawable.code2, "Clear sky"
                     ),
                 )
             ),
             listOfAllCities = listOf(
                 City(
-                    id = 0,
-                    name = "Frňákov",
-                    "lat", "lon"
+                    id = 0, name = "Frňákov", "lat", "lon"
                 )
             ),
             initialCityId = 2,
