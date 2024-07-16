@@ -169,6 +169,11 @@ fun CityDetailScreen(
                                 contentDescription = "TODO"
                             )
 
+                            LaunchedEffect(true) {
+                                val weatherCode = it.weatherCode
+
+                            }
+
                             Column(
                                 modifier = Modifier
                                     .align(Alignment.TopStart)
@@ -280,7 +285,7 @@ fun CityDetailScreenPreview() {
                     windSpeed = 178.0,
                     windDirection = 65.7,
                     weatherCode = WeatherCode(
-                        R.drawable.code2, "Clear sky"
+                        R.drawable.code2, "Clear sky", null, 0
                     ),
                 )
             ),

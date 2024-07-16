@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.weathercheck2000.data.model.CurrentWeather
 import com.example.weathercheck2000.data.model.WeatherForecast
 import com.example.weathercheck2000.data.repository.CitiesRepository
+import com.example.weathercheck2000.data.repository.CollectiblesRepository
 import com.example.weathercheck2000.data.repository.MeteoInfoRepository
 import com.example.weathercheck2000.database.cities.City
+import com.example.weathercheck2000.database.collectibles.Collectible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -45,9 +47,11 @@ sealed class CityDetailUiState {
     ) : CityDetailUiState()
 }
 
+
 class CityDetailViewModel(
     private val meteoInfoRepository: MeteoInfoRepository,
     private val citiesRepository: CitiesRepository,
+    private val collectiblesRepository: CollectiblesRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CityDetailUiState>(CityDetailUiState.Loading)
@@ -102,14 +106,29 @@ class CityDetailViewModel(
                                 forecast = forecast.getOrNull(),
                                 current = currentWeather.getOrNull(),
                             )
+
+                            //Attempt to add collectible
+                            currentWeather.getOrNull()?.weatherCode?.let { weatherCode ->
+                                addCollectible(weatherCode.code)
+                            }
+
                         }
                     }.catch { _uiState.value = CityDetailUiState.Error }.collect {}
                 }
         }
     }
 
-    fun deleteCity(id: Int){
+    fun deleteCity(id: Int) {
         citiesRepository.deleteById(id)
+    }
+
+    suspend fun addCollectible(code: Int) {
+        collectiblesRepository.insert(
+            Collectible(
+                code = code,
+                dateCollected = System.currentTimeMillis()
+            )
+        )
     }
 
 }

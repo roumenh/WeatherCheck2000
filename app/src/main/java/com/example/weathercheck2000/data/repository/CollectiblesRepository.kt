@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 interface CollectiblesRepository {
 
     val allCollectibles: Flow<MutableList<Collectible>>
-    fun collectibleExists(code: String): Boolean
+    //fun collectibleExists(code: String): Boolean
     fun insert(collectible: Collectible)
     fun delete(collectible: Collectible)
 }
@@ -22,13 +22,16 @@ class CollectiblesRepositoryImpl(private val collectiblesDao: CollectiblesDao) :
 
     override val allCollectibles: Flow<MutableList<Collectible>> = collectiblesDao.getAll()
 
-    override fun collectibleExists(code: String): Boolean {
+   /* override fun collectibleExists(code: String): Boolean {
         return collectiblesDao.collectibleExists(code = code)
     }
-
+*/
     override fun insert(collectible: Collectible) {
         CoroutineScope(Dispatchers.IO).launch {
-            collectiblesDao.insertCollectible(collectible = collectible)
+            if (!collectiblesDao.collectibleExists(collectible.code)){
+                collectiblesDao.insertCollectible(collectible = collectible)
+            }
+
         }
     }
 
