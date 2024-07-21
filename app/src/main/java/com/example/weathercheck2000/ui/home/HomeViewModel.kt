@@ -9,7 +9,6 @@ import com.example.weathercheck2000.database.cities.City
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -54,8 +53,8 @@ class HomeViewModel(
                             HomeSingleCityState(
                                 city = city,
                                 currentTemperature = currentWeather.temperature,
-                                forecastTemperatureLow = forecast.todayMinTemperature,
-                                forecastTemperatureHigh = forecast.todayMaxTemperature,
+                                forecastTemperatureLow = forecast.dailyMinTemperatures.first(),
+                                forecastTemperatureHigh = forecast.dailyMaxTemperatures.first(),
                             )
                         )
                         Log.d("HomeViewModel", "Adding city to list ${city.name}")

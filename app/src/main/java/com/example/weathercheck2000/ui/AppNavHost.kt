@@ -91,6 +91,7 @@ fun AppNavHost(
                     uiState = uiState,
                     initialCityId = cityId,
                     listOfAllCities = allCities,
+                    onBackPressed = { navController.popBackStack() },
                     onDeleteCityClicked = {
                         viewModel.deleteCity(cityId)
                         //Eventually here can be some result check

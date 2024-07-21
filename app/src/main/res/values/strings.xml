@@ -25,4 +25,6 @@
     <string name="about_text">In addition to displaying the current weather and forecast, in this application you can discover various weather displays using photos of the most beautiful dog in the world - Robin. Every time you witness new weather, this new photo will be saved to your Gallery.</string>
     <string name="min_and_max_temp">%1$s°/%2$s°</string>
     <string name="upcoming_days_forecast">Today and next days</string>
+    <string name="upcoming_hours_forecast">Hourly forecast</string>
+    <string name="delete_city">Remove city</string>
 </resources>

@@ -24,5 +24,6 @@
     <string name="about">O aplikaci</string>
     <string name="about_text">Kromě zobrazení aktuálního počasí a předpovědi můžeš v této aplikaci objevovat různé zobrazení počasí pomocí fotografií nejkrásnějšího psa na světě - Robina. Pokaždé, když budeš svědkem nového počasí, uloží se ti tato nová fotka do Galerie.</string>
     <string name="min_and_max_temp">%1$s°/%2$s°</string>
-    <string name="upcoming_days_forecast">Minima a maxima - výhled</string>
+    <string name="upcoming_hours_forecast">Hodinový výhled</string>
+    <string name="delete_city">Vymazat místo</string>
 </resources>

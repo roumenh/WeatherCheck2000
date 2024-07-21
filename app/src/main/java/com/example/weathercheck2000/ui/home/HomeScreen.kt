@@ -61,12 +61,12 @@ fun HomeScreen(
         modifier = Modifier
             .padding(padding)
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 16.dp, vertical = 22.dp)
             .fillMaxWidth()
             .paint(
                 painter = painterResource(id = R.drawable.background),
                 contentScale = ContentScale.Crop
             )
+            .padding(horizontal = 16.dp, vertical = 22.dp)
     ) {
 
 

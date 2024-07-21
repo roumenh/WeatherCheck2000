@@ -1,6 +1,5 @@
 package com.example.weathercheck2000.ui.cityDetail
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,15 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,18 +25,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -58,6 +48,7 @@ import com.example.weathercheck2000.database.cities.City
 import com.example.weathercheck2000.ui.components.ErrorMessage
 import com.example.weathercheck2000.ui.theme.RobinTheme
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -65,11 +56,13 @@ fun CityDetailScreen(
     uiState: CityDetailUiState,
     initialCityId: Int,
     listOfAllCities: List<City>,
+    onBackPressed: () -> Unit,
     fetchDataForCityId: (Int) -> Unit,
     onDeleteCityClicked: (Int) -> Unit,
 ) {
 
     val dateFormatter = DateTimeFormatter.ofPattern("d. M.")
+    val timeFormatter = DateTimeFormatter.ofPattern("H")
 
     Scaffold(
         modifier = Modifier
@@ -115,13 +108,14 @@ fun CityDetailScreen(
                     ) {
 
                         Image(
-                            modifier = Modifier.clickable { },
+                            modifier = Modifier.clickable { onBackPressed() },
                             painter = painterResource(R.drawable.ic_arrow_left),
                             contentDescription = "Previous"
                         )
 
                         Text(
                             modifier = Modifier
+                                .padding(end = 40.dp)
                                 .shadow(
                                     elevation = 4.dp, shape = RoundedCornerShape(25.dp)
                                 )
@@ -133,11 +127,11 @@ fun CityDetailScreen(
                             textAlign = TextAlign.Center
                         )
 
-                        Image(
+                        /*Image(
                             modifier = Modifier.clickable { },
                             painter = painterResource(R.drawable.ic_arrow_right),
                             contentDescription = "Next"
-                        )
+                        )*/
                     }
 
                     //Current weather
@@ -169,11 +163,6 @@ fun CityDetailScreen(
                                 contentDescription = "TODO"
                             )
 
-                            LaunchedEffect(true) {
-                                val weatherCode = it.weatherCode
-
-                            }
-
                             Column(
                                 modifier = Modifier
                                     .align(Alignment.TopStart)
@@ -193,9 +182,7 @@ fun CityDetailScreen(
                                     contentDescription = it.weatherCode.description,
                                 )
 
-
                             }
-
 
                         }
 
@@ -211,13 +198,49 @@ fun CityDetailScreen(
 
                         //forecast
                         successState.forecast?.let {
+
+                            //Hourly forecast
+                            Text(
+                                text = stringResource(R.string.upcoming_hours_forecast),
+                                style = MaterialTheme.typography.headlineSmall
+                            )
+
+                            Row {
+                                it.hourlyTemperatures.forEachIndexed { index, temperature ->
+                                    Column(
+                                        modifier = Modifier.padding(8.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Text(
+                                            LocalDateTime.now().plusHours(index.toLong())
+                                                .format(timeFormatter)
+                                        )
+                                        Image(
+                                            modifier = Modifier.size(40.dp),
+                                            painter = painterResource(id = it.hourlyWeatherCodes[index].imageId),
+                                            contentDescription = it.hourlyWeatherCodes[index].description,
+                                        )
+                                        Text(
+                                            stringResource(
+                                                R.string.celsius,
+                                                it.hourlyTemperatures[index].toInt(),
+                                            )
+                                        )
+                                    }
+
+
+                                }
+                            }
+
+
+                            //Daily forecast
                             Text(
                                 text = stringResource(R.string.upcoming_days_forecast),
                                 style = MaterialTheme.typography.headlineSmall
                             )
 
                             Row {
-                                it.futureMinTemperatures.forEachIndexed { index, temperature ->
+                                it.dailyMinTemperatures.forEachIndexed { index, temperature ->
 
                                     Column(
                                         modifier = Modifier.padding(8.dp),
@@ -230,13 +253,13 @@ fun CityDetailScreen(
                                         )
                                         Image(
                                             modifier = Modifier.size(40.dp),
-                                            painter = painterResource(id = it.weatherCodes[index].imageId),
-                                            contentDescription = it.weatherCodes[index].description,
+                                            painter = painterResource(id = it.dailyWeatherCodes[index].imageId),
+                                            contentDescription = it.dailyWeatherCodes[index].description,
                                         )
                                         Text(
                                             stringResource(
                                                 R.string.min_and_max_temp,
-                                                it.futureMaxTemperatures[index].toInt(),
+                                                it.dailyMaxTemperatures[index].toInt(),
                                                 temperature.toInt()
                                             )
                                         )
@@ -251,12 +274,14 @@ fun CityDetailScreen(
                     }
                 }
             }
-            Spacer(Modifier.height(32.dp))
-
-            Button(onClick = { onDeleteCityClicked(selectedCityId) }) {
-                Text("Delete city")
+            Button(
+                modifier = Modifier
+                    .padding(vertical = 32.dp)
+                    .align(Alignment.CenterHorizontally),
+                onClick = { onDeleteCityClicked(selectedCityId) }
+            ) {
+                Text(stringResource(R.string.delete_city))
             }
-
         }
     }
 }
@@ -270,11 +295,9 @@ fun CityDetailScreenPreview() {
             uiState = CityDetailUiState.Success(
                 city = City(1, "Náměšť nad Oslavou", "0", "0"),
                 forecast = WeatherForecast(
-                    todayMinTemperature = 5.0,
-                    todayMaxTemperature = 35.2,
-                    futureMinTemperatures = listOf(2.0, 3.0, 4.0),
-                    futureMaxTemperatures = listOf(5.0, 6.0, 7.0),
-                    weatherCodes = listOf(
+                    dailyMinTemperatures = listOf(2.0, 3.0, 4.0),
+                    dailyMaxTemperatures = listOf(5.0, 6.0, 7.0),
+                    dailyWeatherCodes = listOf(
                         WeatherCode(
                             imageId = R.drawable.code2,
                             description = "",
@@ -293,7 +316,29 @@ fun CityDetailScreenPreview() {
                             robinImage = R.drawable.rimg_45_fog,
                             code = 45
                         ),
-                    )
+                    ),
+                    hourlyTemperatures = listOf(1.0, 2.0, 3.0),
+                    hourlyWindSpeeds = listOf(1.0, 2.0, 3.0),
+                    hourlyWeatherCodes = listOf(
+                        WeatherCode(
+                            imageId = R.drawable.code2,
+                            description = "",
+                            robinImage = R.drawable.rimg_45_fog,
+                            code = 45
+                        ),
+                        WeatherCode(
+                            imageId = R.drawable.code71,
+                            description = "",
+                            robinImage = R.drawable.rimg_45_fog,
+                            code = 45
+                        ),
+                        WeatherCode(
+                            imageId = R.drawable.code53,
+                            description = "",
+                            robinImage = R.drawable.rimg_45_fog,
+                            code = 45
+                        ),
+                    ),
                 ),
                 current = CurrentWeather(
                     temperature = 15.7,
@@ -312,6 +357,7 @@ fun CityDetailScreenPreview() {
             initialCityId = 2,
             onDeleteCityClicked = {},
             fetchDataForCityId = {},
+            onBackPressed = {}
         )
     }
 }
