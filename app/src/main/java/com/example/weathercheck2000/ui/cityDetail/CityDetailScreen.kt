@@ -53,6 +53,7 @@ import com.example.weathercheck2000.data.model.CurrentWeather
 import com.example.weathercheck2000.data.model.WeatherCode
 import com.example.weathercheck2000.data.model.WeatherForecast
 import com.example.weathercheck2000.database.cities.City
+import com.example.weathercheck2000.ui.components.ErrorMessage
 import com.example.weathercheck2000.ui.theme.RobinTheme
 
 @Composable
@@ -89,17 +90,11 @@ fun CityDetailScreen(
 
             when (uiState) {
                 is CityDetailUiState.Loading -> {
-                    Text("Loading")
+                    Text(stringResource(R.string.loading))
                 }
 
                 is CityDetailUiState.Error -> {
-                    Text(
-                        modifier = Modifier
-                            .padding(20.dp)
-                            .align(Alignment.CenterHorizontally),
-                        text = "Something \uD83D\uDCA9 is wrong",
-                        style = MaterialTheme.typography.headlineLarge,
-                    )
+                    ErrorMessage()
                 }
 
                 else -> {

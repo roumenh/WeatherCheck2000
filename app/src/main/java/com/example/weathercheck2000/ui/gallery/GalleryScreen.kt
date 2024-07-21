@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
@@ -31,10 +32,12 @@ import androidx.compose.ui.unit.dp
 import com.example.weathercheck2000.R
 import com.example.weathercheck2000.data.model.mapOfWeatherCodes
 import com.example.weathercheck2000.data.utils.getCurrentDateInCustomFormat
+import com.example.weathercheck2000.ui.components.ErrorMessage
 import com.example.weathercheck2000.ui.theme.RobinTheme
 
 @Composable
 fun GalleryScreen(
+    uiState: GalleryUiState,
     onBackPressed: () -> Unit
 ) {
     Column(
@@ -63,39 +66,70 @@ fun GalleryScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-        ) {
+        when (uiState) {
 
-            mapOfWeatherCodes.forEach {
-                it.value.robinImage?.let{ image ->
-                    item(it.key) {
-                       // Text(text = it.value.description)
-                        Box(
-                            modifier = Modifier
-                                .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
-                                .background(
-                                    color = MaterialTheme.colorScheme.primary,
-                                )
-                                .padding(12.dp)
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .heightIn(max = 140.dp)
-                                    .shadow(elevation = 1.dp, shape = RoundedCornerShape(12.dp)),
-                                contentScale = ContentScale.FillWidth,
-                                painter = painterResource(image),
-                                contentDescription = it.value.description
-                            )
+            GalleryUiState.Error -> {
+                ErrorMessage()
+            }
+
+            GalleryUiState.Loading -> {
+                Text(stringResource(R.string.loading))
+            }
+
+            is GalleryUiState.Success -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp),
+                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                ) {
+
+                    mapOfWeatherCodes.forEach {
+                        it.value.robinImage?.let { image ->
+                            item(it.key) {
+                                // Text(text = it.value.description)
+                                Box(
+                                    modifier = Modifier
+                                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
+                                        .background(
+                                            color = MaterialTheme.colorScheme.primary,
+                                        )
+                                        .padding(12.dp)
+                                ) {
+                                    if (uiState.listOfCollectedCodes.contains(it.value.code)) {
+                                        Image(
+                                            modifier = Modifier
+                                                .heightIn(max = 140.dp)
+                                                .shadow(
+                                                    elevation = 1.dp,
+                                                    shape = RoundedCornerShape(12.dp)
+                                                ),
+                                            contentScale = ContentScale.FillWidth,
+                                            painter = painterResource(image),
+                                            contentDescription = it.value.description
+                                        )
+                                    } else {
+                                        Image(
+                                            modifier = Modifier
+                                                .padding(vertical = 30.dp)
+                                                .align(Alignment.Center)
+                                                .heightIn(max = 140.dp)
+                                                .shadow(
+                                                    elevation = 1.dp,
+                                                    shape = RoundedCornerShape(12.dp)
+                                                ),
+                                            contentScale = ContentScale.FillWidth,
+                                            painter = painterResource(R.drawable.ic_locked),
+                                            contentDescription = "Locked"
+                                        )
+                                    }
+                                }
+
+                            }
                         }
-
                     }
                 }
             }
         }
-
     }
 }
 
@@ -104,6 +138,9 @@ fun GalleryScreen(
 fun GalleryScreenPreview() {
     RobinTheme {
         GalleryScreen(
+            uiState = GalleryUiState.Success(
+                listOfCollectedCodes = listOf(1)
+            ),
             onBackPressed = {}
         )
     }

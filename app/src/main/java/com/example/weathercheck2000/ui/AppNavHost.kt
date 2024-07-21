@@ -12,6 +12,7 @@ import com.example.weathercheck2000.ui.addCity.AddCityViewModel
 import com.example.weathercheck2000.ui.cityDetail.CityDetailScreen
 import com.example.weathercheck2000.ui.cityDetail.CityDetailViewModel
 import com.example.weathercheck2000.ui.gallery.GalleryScreen
+import com.example.weathercheck2000.ui.gallery.GalleryViewModel
 import com.example.weathercheck2000.ui.home.HomeScreen
 import com.example.weathercheck2000.ui.home.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -99,12 +100,11 @@ fun AppNavHost(
         // -------- GALLERY -----------------
         composable(NavigationItem.Gallery.route) {
 
-            /*val viewModel: CityDetailViewModel = koinViewModel()
+            val viewModel: GalleryViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsState()
-            val allCities by viewModel.allCities.collectAsState()*/
-
 
             GalleryScreen(
+                uiState = uiState,
                 onBackPressed = { navController.popBackStack() }
             )
 

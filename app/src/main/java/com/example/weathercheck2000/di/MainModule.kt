@@ -12,6 +12,7 @@ import com.example.weathercheck2000.database.cities.CitiesDao
 import com.example.weathercheck2000.database.collectibles.CollectiblesDao
 import com.example.weathercheck2000.ui.addCity.AddCityViewModel
 import com.example.weathercheck2000.ui.cityDetail.CityDetailViewModel
+import com.example.weathercheck2000.ui.gallery.GalleryViewModel
 import com.example.weathercheck2000.ui.home.HomeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -41,6 +42,7 @@ val appModule = module {
     viewModel { CityDetailViewModel(get(), get(), get()) }
     viewModel { AddCityViewModel(get()) }
     viewModel { HomeViewModel(get(), get()) }
+    viewModel { GalleryViewModel(get()) }
 
 }
 
