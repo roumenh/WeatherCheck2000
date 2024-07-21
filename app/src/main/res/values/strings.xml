@@ -27,4 +27,7 @@
     <string name="upcoming_days_forecast">Today and next days</string>
     <string name="upcoming_hours_forecast">Hourly forecast</string>
     <string name="delete_city">Remove city</string>
+    <string name="add_loos">Add Loos</string>
+    <string name="add_brno">Add Brno</string>
+    <string name="add_alicante">Přidej Alicante</string>
 </resources>

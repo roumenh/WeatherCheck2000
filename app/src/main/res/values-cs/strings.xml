@@ -26,4 +26,8 @@
     <string name="min_and_max_temp">%1$s°/%2$s°</string>
     <string name="upcoming_hours_forecast">Hodinový výhled</string>
     <string name="delete_city">Vymazat místo</string>
+    <string name="add_loos">Přidej Loos</string>
+    <string name="add_brno">Přidej Brno</string>
+    <string name="add_alicante">Přidej Alicante</string>
+    <string name="upcoming_days_forecast">Výhled na další dny</string>
 </resources>

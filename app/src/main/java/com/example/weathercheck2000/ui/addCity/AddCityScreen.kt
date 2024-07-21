@@ -127,13 +127,13 @@ fun AddCityScreen(
             )
 
             Button(onClick = { onAddCity("Loos", "61.7365133", "15.1692092") }) {
-                Text("Add Loos")
+                Text(stringResource(R.string.add_loos))
             }
             Button(onClick = { onAddCity("Brno", "49.2002211", "16.6078411") }) {
-                Text("Add Brno")
+                Text(stringResource(R.string.add_brno))
             }
             Button(onClick = { onAddCity("Alicante", "38.3436364", "0.4881708") }) {
-                Text("Add Alicante")
+                Text(stringResource(R.string.add_alicante))
             }
 
         }
