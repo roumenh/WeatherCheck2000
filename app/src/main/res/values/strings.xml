@@ -3,13 +3,11 @@
     <string name="app_name">Weather Check 2000</string>
     <string name="title_home">All cities</string>
     <string name="add_city">Add City</string>
-    <string name="title_notifications">Notifications</string>
     <string name="celsius">%1$s °C</string>
     <string name="kilometers_per_hour">%1$s km/h</string>
     <string name="current_temperature">Current temperature</string>
     <string name="current_weather">Current weather conditions</string>
     <string name="todays_forecast">Today\'s forecast</string>
-    <string name="add_city_hint">Enter the city name and its coordinates.</string>
     <string name="add_city_name">City name</string>
     <string name="add_city_latitude">City latitude / N (in decimal)</string>
     <string name="add_city_longitude">City longitude / E (in decimal)</string>
@@ -23,6 +21,8 @@
     <string name="example_latitude">Eg.: 49.2002211</string>
     <string name="loading">Loading...</string>
     <string name="something_is_wrong">Something 💩 is wrong</string>
-
-
+    <string name="about">About</string>
+    <string name="about_text">In addition to displaying the current weather and forecast, in this application you can discover various weather displays using photos of the most beautiful dog in the world - Robin. Every time you witness new weather, this new photo will be saved to your Gallery.</string>
+    <string name="min_and_max_temp">%1$s°/%2$s°</string>
+    <string name="upcoming_days_forecast">Today and next days</string>
 </resources>

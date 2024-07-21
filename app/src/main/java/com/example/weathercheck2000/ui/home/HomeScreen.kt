@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,11 +45,21 @@ fun HomeScreen(
     uiState: HomeUiState,
     onCityClicked: (Int) -> Unit,
     onOpenGalleryClicked: () -> Unit,
+    onAboutClicked: () -> Unit,
     onAddCityClicked: () -> Unit,
 ) {
 
+    Scaffold (
+        floatingActionButton = {
+            Button(onClick = onAboutClicked) {
+                Text (stringResource(R.string.about))
+            }
+        }
+    ) { padding ->
+        
     Column(
         modifier = Modifier
+            .padding(padding)
             .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 16.dp, vertical = 22.dp)
             .fillMaxWidth()
@@ -162,7 +174,7 @@ fun HomeScreen(
 
 
         }
-
+    }
 
     }
 
@@ -191,6 +203,7 @@ fun HomeScreenPreview() {
             ),
             onCityClicked = {},
             onOpenGalleryClicked = {},
+            onAboutClicked = {},
             onAddCityClicked = {},
         )
     }

@@ -4,6 +4,7 @@ replaced with CurrentWeather
 
 package com.example.weathercheck2000.network.model
 
+import com.example.weathercheck2000.data.model.WeatherCode
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -29,6 +30,8 @@ data class WeatherForecastDto(
         val temperature2mMax: List<Double>,
         @Json(name = "temperature_2m_min")
         val temperature2mMin: List<Double>,
+        @Json(name = "weather_code")
+        val weatherCodes: List<Int>,
         val time: List<String>
     )
 

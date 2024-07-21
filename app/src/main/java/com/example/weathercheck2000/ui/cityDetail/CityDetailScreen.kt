@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -55,6 +57,8 @@ import com.example.weathercheck2000.data.model.WeatherForecast
 import com.example.weathercheck2000.database.cities.City
 import com.example.weathercheck2000.ui.components.ErrorMessage
 import com.example.weathercheck2000.ui.theme.RobinTheme
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun CityDetailScreen(
@@ -64,6 +68,8 @@ fun CityDetailScreen(
     fetchDataForCityId: (Int) -> Unit,
     onDeleteCityClicked: (Int) -> Unit,
 ) {
+
+    val dateFormatter = DateTimeFormatter.ofPattern("d. M.")
 
     Scaffold(
         modifier = Modifier
@@ -84,8 +90,7 @@ fun CityDetailScreen(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .verticalScroll(rememberScrollState())
         ) {
 
             when (uiState) {
@@ -187,6 +192,8 @@ fun CityDetailScreen(
                                     painter = painterResource(id = it.weatherCode!!.imageId),
                                     contentDescription = it.weatherCode.description,
                                 )
+
+
                             }
 
 
@@ -194,66 +201,54 @@ fun CityDetailScreen(
 
                         Spacer(Modifier.height(16.dp))
 
-                        Row() {
-                            Icon(
-                                painter = painterResource(R.drawable.air_24px),
-                                contentDescription = stringResource(id = R.string.current_temperature)
-                            )
-                            Text(
-                                stringResource(
-                                    R.string.kilometers_per_hour, it.windSpeed.toString()
-                                )
-                            )
-                        }
-
-                        Image(
-                            modifier = Modifier
-                                .size(64.dp)
-                                .rotate(it.windDirection.toFloat()),
-                            painter = painterResource(id = R.drawable.arrow),
-                            contentDescription = stringResource(
-                                R.string.kilometers_per_hour, it.windSpeed.toString()
-                            ),
-                        )
-
                     }
 
+                    Column(
+                        modifier = Modifier
+                            .horizontalScroll(rememberScrollState())
+                            .padding(horizontal = 16.dp)
+                    ) {
 
-                    //Todays forecast
-                    successState.forecast?.let {
-
-                        Text(
-                            modifier = Modifier.padding(top = 16.dp),
-                            text = stringResource(R.string.todays_forecast),
-                            style = MaterialTheme.typography.headlineSmall
-                        )
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            Text(stringResource(R.string.minimum_temperature))
-                            Spacer(Modifier.weight(1f))
+                        //forecast
+                        successState.forecast?.let {
                             Text(
-                                stringResource(
-                                    R.string.celsius, it.todayMinTemperature.toString()
-                                )
+                                text = stringResource(R.string.upcoming_days_forecast),
+                                style = MaterialTheme.typography.headlineSmall
                             )
-                        }
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            Text(stringResource(R.string.maximum_temperature))
-                            Spacer(Modifier.weight(1f))
-                            Text(
-                                stringResource(
-                                    R.string.celsius, it.todayMaxTemperature.toString()
-                                )
-                            )
+                            Row {
+                                it.futureMinTemperatures.forEachIndexed { index, temperature ->
+
+                                    Column(
+                                        modifier = Modifier.padding(8.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        //Date today and next 7 days based by index
+                                        Text(
+                                            LocalDate.now().plusDays(index.toLong())
+                                                .format(dateFormatter)
+                                        )
+                                        Image(
+                                            modifier = Modifier.size(40.dp),
+                                            painter = painterResource(id = it.weatherCodes[index].imageId),
+                                            contentDescription = it.weatherCodes[index].description,
+                                        )
+                                        Text(
+                                            stringResource(
+                                                R.string.min_and_max_temp,
+                                                it.futureMaxTemperatures[index].toInt(),
+                                                temperature.toInt()
+                                            )
+                                        )
+                                    }
+
+
+                                }
+                            }
+
                         }
 
                     }
-
                 }
             }
             Spacer(Modifier.height(32.dp))
@@ -273,9 +268,34 @@ fun CityDetailScreenPreview() {
     RobinTheme {
         CityDetailScreen(
             uiState = CityDetailUiState.Success(
-                city = City(1, "Náměšť nad Oslavou", "0", "0"), forecast = WeatherForecast(
-                    todayMinTemperature = 5.0, todayMaxTemperature = 35.2
-                ), current = CurrentWeather(
+                city = City(1, "Náměšť nad Oslavou", "0", "0"),
+                forecast = WeatherForecast(
+                    todayMinTemperature = 5.0,
+                    todayMaxTemperature = 35.2,
+                    futureMinTemperatures = listOf(2.0, 3.0, 4.0),
+                    futureMaxTemperatures = listOf(5.0, 6.0, 7.0),
+                    weatherCodes = listOf(
+                        WeatherCode(
+                            imageId = R.drawable.code2,
+                            description = "",
+                            robinImage = R.drawable.rimg_45_fog,
+                            code = 45
+                        ),
+                        WeatherCode(
+                            imageId = R.drawable.code71,
+                            description = "",
+                            robinImage = R.drawable.rimg_45_fog,
+                            code = 45
+                        ),
+                        WeatherCode(
+                            imageId = R.drawable.code53,
+                            description = "",
+                            robinImage = R.drawable.rimg_45_fog,
+                            code = 45
+                        ),
+                    )
+                ),
+                current = CurrentWeather(
                     temperature = 15.7,
                     windSpeed = 178.0,
                     windDirection = 65.7,

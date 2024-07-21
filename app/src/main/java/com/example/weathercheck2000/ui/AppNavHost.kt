@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.weathercheck2000.ui.about.AboutScreen
 import com.example.weathercheck2000.ui.addCity.AddCityScreen
 import com.example.weathercheck2000.ui.addCity.AddCityViewModel
 import com.example.weathercheck2000.ui.cityDetail.CityDetailScreen
@@ -22,6 +23,7 @@ enum class Screen {
     ADD_CITY,
     CITY,
     GALLERY,
+    ABOUT
 }
 
 sealed class NavigationItem(val route: String) {
@@ -29,6 +31,7 @@ sealed class NavigationItem(val route: String) {
     data object CityDetail : NavigationItem(Screen.CITY.name)
     data object AddCity : NavigationItem(Screen.ADD_CITY.name)
     data object Gallery : NavigationItem(Screen.GALLERY.name)
+    data object About : NavigationItem(Screen.ABOUT.name)
 }
 
 @Composable
@@ -54,6 +57,7 @@ fun AppNavHost(
             HomeScreen(
                 onCityClicked = { navController.navigate(NavigationItem.CityDetail.route + "/" + it.toString()) },
                 onOpenGalleryClicked = { navController.navigate(NavigationItem.Gallery.route) },
+                onAboutClicked = { navController.navigate(NavigationItem.About.route) },
                 onAddCityClicked = { navController.navigate(NavigationItem.AddCity.route) },
                 uiState = uiState
             )
@@ -105,6 +109,15 @@ fun AppNavHost(
 
             GalleryScreen(
                 uiState = uiState,
+                onBackPressed = { navController.popBackStack() }
+            )
+
+        }
+
+        // ---------- ABOUT (Settings) -----------------
+        composable(NavigationItem.About.route){
+
+            AboutScreen(
                 onBackPressed = { navController.popBackStack() }
             )
 

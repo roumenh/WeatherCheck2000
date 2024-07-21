@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Psí Počasí</string>
+    <string name="title_home">Všechna místa</string>
+    <string name="add_city">Přidej místo</string>
+    <string name="celsius">%1$s °C</string>
+    <string name="kilometers_per_hour">%1$s km/h</string>
+    <string name="current_temperature">Aktuální teplota</string>
+    <string name="current_weather">Aktuální podmínky</string>
+    <string name="todays_forecast">Dnešní předpověď</string>
+    <string name="add_city_name">Jméno místa</string>
+    <string name="add_city_latitude">zeměpisná šířka (číslo, s desetinnou tečkou)</string>
+    <string name="add_city_longitude">zeměpisná délka (číslo, s desetinnou tečkou)</string>
+    <string name="fragment_city_detail">Počasí v místě</string>
+    <string name="minimum_temperature">Minimální teplota</string>
+    <string name="maximum_temperature">Maximální teplota</string>
+    <string name="add">Přidej</string>
+    <string name="gallery">Galerie</string>
+    <string name="back">Zpět</string>
+    <string name="example_longitude">Např.: 16.6078411</string>
+    <string name="example_latitude">Např.: 49.2002211</string>
+    <string name="loading">Načítání...</string>
+    <string name="something_is_wrong">Něco se po💩</string>
+    <string name="about">O aplikaci</string>
+    <string name="about_text">Kromě zobrazení aktuálního počasí a předpovědi můžeš v této aplikaci objevovat různé zobrazení počasí pomocí fotografií nejkrásnějšího psa na světě - Robina. Pokaždé, když budeš svědkem nového počasí, uloží se ti tato nová fotka do Galerie.</string>
+    <string name="min_and_max_temp">%1$s°/%2$s°</string>
+    <string name="upcoming_days_forecast">Minima a maxima - výhled</string>
+</resources>

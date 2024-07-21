@@ -25,7 +25,7 @@ private val retrofit = Retrofit.Builder()
 
 interface WeatherApiService{
 
-    @GET("forecast/?daily=temperature_2m_max,temperature_2m_min&timezone=Europe%2FLondon")  // latitude={latitude}&longitude{longitude}&
+    @GET("forecast/?daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=temperature_2m,rain,weather_code,wind_speed_10m&timezone=Europe%2FLondon")  // latitude={latitude}&longitude{longitude}&
     suspend fun getForecast(
         @Query("latitude") latitude : String,
         @Query("longitude") longitude : String
