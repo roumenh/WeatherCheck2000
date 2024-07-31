@@ -1,8 +1,14 @@
 package com.example.weathercheck2000.ui.addCity
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,9 +32,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
@@ -39,6 +47,7 @@ import com.example.weathercheck2000.ui.theme.RobinTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddCityScreen(
+    onBackPressed: () -> Unit,
     onAddCity: (String, String, String) -> Unit
 ) {
 
@@ -59,16 +68,36 @@ fun AddCityScreen(
             var lat by remember { mutableStateOf("") }
             var lon by remember { mutableStateOf("") }
 
-            Text(
+
+            Row(
                 modifier = Modifier
-                    .shadow(elevation = 4.dp, shape = RoundedCornerShape(25.dp))
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                    .padding(horizontal = 15.dp),
-                text = stringResource(R.string.add_city),
-                style = MaterialTheme.typography.headlineMedium
-            )
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Image(
+                    modifier = Modifier.clickable { onBackPressed() },
+                    painter = painterResource(R.drawable.ic_arrow_left),
+                    contentDescription = "Previous"
+                )
+
+                Text(
+                    modifier = Modifier
+                        .padding(end = 40.dp)
+                        .shadow(
+                            elevation = 4.dp, shape = RoundedCornerShape(25.dp)
+                        )
+                        .weight(1f)
+                        .background(color = MaterialTheme.colorScheme.primary)
+                        .padding(horizontal = 25.dp),
+                    text = stringResource(R.string.add_city),
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center
+                )
+
+            }
 
             val outlinedTextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary,
@@ -116,13 +145,13 @@ fun AddCityScreen(
             )
 
             Button(onClick = { onAddCity(name, lat, lon) }) {
-                Text("Add city")
+                Text(stringResource(R.string.add))
             }
 
-            HorizontalDivider()
+            Spacer(Modifier.height(32.dp))
 
             Text(
-                text = "Zkratky",
+                text = stringResource(R.string.zkratky),
                 style = MaterialTheme.typography.headlineSmall
             )
 
@@ -145,7 +174,8 @@ fun AddCityScreen(
 fun AddCityScreenPreview() {
     RobinTheme {
         AddCityScreen(
-            onAddCity = { _, _, _ -> }
+            onAddCity = { _, _, _ -> },
+            onBackPressed = {}
         )
     }
 }

@@ -74,7 +74,8 @@ fun AppNavHost(
                     if (viewModel.addCity(name, lat, lon)) {
                         navController.navigate(NavigationItem.Home.route)
                     } //TODO else show error somehow :) need to improve the view Model and UiState :)
-                }
+                },
+                onBackPressed = { navController.popBackStack() }
             )
         }
 

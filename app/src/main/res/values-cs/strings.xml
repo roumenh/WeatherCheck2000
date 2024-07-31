@@ -19,7 +19,7 @@
     <string name="back">Zpět</string>
     <string name="example_longitude">Např.: 16.6078411</string>
     <string name="example_latitude">Např.: 49.2002211</string>
-    <string name="loading">Načítání...</string>
+    <string name="loading">Načítání…</string>
     <string name="something_is_wrong">Něco se po💩</string>
     <string name="about">O aplikaci</string>
     <string name="about_text">Kromě zobrazení aktuálního počasí a předpovědi můžeš v této aplikaci objevovat různé zobrazení počasí pomocí fotografií nejkrásnějšího psa na světě - Robina. Pokaždé, když budeš svědkem nového počasí, uloží se ti tato nová fotka do Galerie.</string>
@@ -30,4 +30,5 @@
     <string name="add_brno">Přidej Brno</string>
     <string name="add_alicante">Přidej Alicante</string>
     <string name="upcoming_days_forecast">Výhled na další dny</string>
+    <string name="zkratky">Rychlé volby na přidání</string>
 </resources>

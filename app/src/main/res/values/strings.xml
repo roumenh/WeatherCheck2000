@@ -19,7 +19,7 @@
     <string name="back">Back</string>
     <string name="example_longitude">Eg.: 16.6078411</string>
     <string name="example_latitude">Eg.: 49.2002211</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="something_is_wrong">Something 💩 is wrong</string>
     <string name="about">About</string>
     <string name="about_text">In addition to displaying the current weather and forecast, in this application you can discover various weather displays using photos of the most beautiful dog in the world - Robin. Every time you witness new weather, this new photo will be saved to your Gallery.</string>
@@ -29,5 +29,6 @@
     <string name="delete_city">Remove city</string>
     <string name="add_loos">Add Loos</string>
     <string name="add_brno">Add Brno</string>
-    <string name="add_alicante">Přidej Alicante</string>
+    <string name="add_alicante">Add Alicante</string>
+    <string name="zkratky">Quick selection</string>
 </resources>
