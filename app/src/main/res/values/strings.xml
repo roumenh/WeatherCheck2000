@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Weather Check 2000</string>
+    <string name="app_name">Dogs weather</string>
     <string name="title_home">All cities</string>
     <string name="add_city">Add City</string>
     <string name="celsius">%1$s °C</string>
