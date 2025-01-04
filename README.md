@@ -8,3 +8,4 @@ This was a weather app project that transformed over time to a Birthday present 
 - for each city fetch temperature forecasts, wind speed, wind orientation and image.
 - delete, insert city.
 
+![image](https://github.com/user-attachments/assets/111e04ec-b1cb-416d-b545-0fb59645854c)
