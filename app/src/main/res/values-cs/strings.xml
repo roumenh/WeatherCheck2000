@@ -31,4 +31,34 @@
     <string name="add_alicante">Přidej Alicante</string>
     <string name="upcoming_days_forecast">Výhled na další dny</string>
     <string name="zkratky">Rychlé volby na přidání</string>
+
+    <string name="clear_sky">Jasná obloha</string>
+    <string name="mainly_clear">Převážně jasno</string>
+    <string name="partly_cloudly">Částečně oblačno</string>
+    <string name="overcast">Zataženo</string>
+    <string name="fog">Mlha</string>
+    <string name="depositing_rime_fog">Mrznoucí mlha s námrazou</string>
+    <string name="light_drizzle">Slabé mrholení</string>
+    <string name="moderate_drizzle">Mírné mrholení</string>
+    <string name="dense_drizzle">Husté mrholení</string>
+    <string name="light_freezing_drizzle">Slabé mrznoucí mrholení</string>
+    <string name="dense_freezing_drizzle">Husté mrznoucí mrholení</string>
+    <string name="slight_rain">Slabý déšť</string>
+    <string name="moderate_rain">Mírný déšť</string>
+    <string name="heavy_rain">Silný déšť</string>
+    <string name="light_freezing_rain">Slabý mrznoucí déšť</string>
+    <string name="dense_freezing_rain">Hustý mrznoucí déšť</string>
+    <string name="slight_snow_fall">Slabé sněžení</string>
+    <string name="moderate_snow_fall">Mírné sněžení</string>
+    <string name="heavy_snow_fall">Silné sněžení</string>
+    <string name="snow_grains">Ledové krupky</string>
+    <string name="slight_rain_showers">Slabé přeháňky</string>
+    <string name="moderate_rain_showers">Mírné přeháňky</string>
+    <string name="violent_rain_showers">Silné přeháňky</string>
+    <string name="slight_snow_showers">Slabé sněhové přeháňky</string>
+    <string name="heavy_snow_showers">Silné sněhové přeháňky</string>
+    <string name="thunderstorm">Bouřka</string>
+    <string name="thunderstorm_with_slight_hail">Bouřka s drobnými kroupami</string>
+    <string name="thunderstorm_with_heavy_hail">Bouřka s velkými kroupami</string>
+    <string name="undefined">Nedefinováno</string>
 </resources>

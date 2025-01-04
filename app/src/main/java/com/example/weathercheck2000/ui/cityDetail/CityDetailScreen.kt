@@ -179,7 +179,7 @@ fun CityDetailScreen(
                                 Image(
                                     modifier = Modifier.size(80.dp),
                                     painter = painterResource(id = it.weatherCode!!.imageId),
-                                    contentDescription = it.weatherCode.description,
+                                    contentDescription = stringResource(it.weatherCode.description),
                                 )
 
                             }
@@ -218,7 +218,7 @@ fun CityDetailScreen(
                                         Image(
                                             modifier = Modifier.size(40.dp),
                                             painter = painterResource(id = it.hourlyWeatherCodes[index].imageId),
-                                            contentDescription = it.hourlyWeatherCodes[index].description,
+                                            contentDescription = stringResource(it.hourlyWeatherCodes[index].description),
                                         )
                                         Text(
                                             stringResource(
@@ -254,7 +254,7 @@ fun CityDetailScreen(
                                         Image(
                                             modifier = Modifier.size(40.dp),
                                             painter = painterResource(id = it.dailyWeatherCodes[index].imageId),
-                                            contentDescription = it.dailyWeatherCodes[index].description,
+                                            contentDescription = stringResource(it.dailyWeatherCodes[index].description),
                                         )
                                         Text(
                                             stringResource(
@@ -300,19 +300,19 @@ fun CityDetailScreenPreview() {
                     dailyWeatherCodes = listOf(
                         WeatherCode(
                             imageId = R.drawable.code2,
-                            description = "",
+                            description = R.string.clear_sky,
                             robinImage = R.drawable.rimg_45_fog,
                             code = 45
                         ),
                         WeatherCode(
                             imageId = R.drawable.code71,
-                            description = "",
+                            description = R.string.thunderstorm_with_heavy_hail,
                             robinImage = R.drawable.rimg_45_fog,
                             code = 45
                         ),
                         WeatherCode(
                             imageId = R.drawable.code53,
-                            description = "",
+                            description = R.string.heavy_rain,
                             robinImage = R.drawable.rimg_45_fog,
                             code = 45
                         ),
@@ -322,19 +322,19 @@ fun CityDetailScreenPreview() {
                     hourlyWeatherCodes = listOf(
                         WeatherCode(
                             imageId = R.drawable.code2,
-                            description = "",
+                            description = R.string.thunderstorm,
                             robinImage = R.drawable.rimg_45_fog,
                             code = 45
                         ),
                         WeatherCode(
                             imageId = R.drawable.code71,
-                            description = "",
+                            description = R.string.mainly_clear,
                             robinImage = R.drawable.rimg_45_fog,
                             code = 45
                         ),
                         WeatherCode(
                             imageId = R.drawable.code53,
-                            description = "",
+                            description = R.string.light_freezing_rain,
                             robinImage = R.drawable.rimg_45_fog,
                             code = 45
                         ),
@@ -345,7 +345,7 @@ fun CityDetailScreenPreview() {
                     windSpeed = 178.0,
                     windDirection = 65.7,
                     weatherCode = WeatherCode(
-                        R.drawable.code2, "Clear sky", null, 0
+                        R.drawable.code2, R.string.clear_sky, null, 0
                     ),
                 )
             ),
